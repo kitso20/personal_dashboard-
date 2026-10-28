@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Request, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.templating import Jinja2Templates
-import os
 
 router = APIRouter()
 templates = Jinja2Templates(directory="templates")
@@ -15,4 +14,4 @@ def get_current_user(request: Request):
 @router.get("/dashboard", response_class=HTMLResponse)
 async def dashboard(request: Request):
     user = get_current_user(request)
-    return templates.TemplateResponse("dashboard.html", {"request": request, "user": user})
+    return templates.TemplateResponse(request, "dashboard.html", {"user": user})
