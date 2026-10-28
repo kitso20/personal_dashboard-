@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Personal Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Personal Dashboard</h1>
+            <nav>
+                <span class="user-info">Welcome, {{ user.name }}</span>
+                <a href="/logout" class="btn btn-secondary">Logout</a>
+            </nav>
+        </header>
+        
+        <main>
+            <div class="dashboard-content">
+                <div class="user-card">
+                    {% if user.picture %}
+                        <img src="{{ user.picture }}" alt="Profile Picture" class="profile-pic">
+                    {% endif %}
+                    <div class="user-details">
+                        <h2>{{ user.name }}</h2>
+                        <p>{{ user.email }}</p>
+                    </div>
+                </div>
+                
+                <div class="dashboard-grid">
+                    <div class="card">
+                        <h3>Overview</h3>
+                        <p>This is your personal dashboard. Customize it with your own widgets and features.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
