@@ -1,0 +1,982 @@
+{
+  "user": {
+    "name": "Kitso Motlashuping",
+    "email": "motlashupingkitso@gmail.com",
+    "role": "Lead Engineer & Strategist",
+    "timezone": "UTC-7 (Pacific)",
+    "avatar": "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"
+  },
+  "preferences": {
+    "theme": "dark",
+    "emailDigestSchedule": "08:00 daily",
+    "pushSound": true,
+    "realtimeSync": true
+  },
+  "activeWidgets": {
+    "habits": true,
+    "rest": true,
+    "weather": true,
+    "calendar": true,
+    "todos": true,
+    "news": true,
+    "funfacts": true,
+    "analytics": true
+  },
+  "habits": [
+    {
+      "id": "habit-1",
+      "name": "Morning Deep Work Session (2h+)",
+      "category": "focus",
+      "streak": 9,
+      "completed": true,
+      "history": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "id": "habit-2",
+      "name": "System Architecture & Code Review",
+      "category": "focus",
+      "streak": 6,
+      "completed": true,
+      "history": [
+        true,
+        false,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "id": "habit-3",
+      "name": "Mindful Downtime & Screen-Free Rest",
+      "category": "rest",
+      "streak": 12,
+      "completed": true,
+      "history": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "id": "habit-4",
+      "name": "Hydration (2.5L Water Intake)",
+      "category": "health",
+      "streak": 15,
+      "completed": true,
+      "history": [
+        true,
+        true,
+        true,
+        true,
+        true,
+        true,
+        true
+      ]
+    },
+    {
+      "id": "habit-5",
+      "name": "Physical Exercise / 30m Movement",
+      "category": "health",
+      "streak": 4,
+      "completed": false,
+      "history": [
+        false,
+        true,
+        true,
+        true,
+        false,
+        true,
+        false
+      ]
+    },
+    {
+      "id": "habit-6",
+      "name": "Read Technical Research Papers",
+      "category": "learning",
+      "streak": 8,
+      "completed": false,
+      "history": [
+        true,
+        true,
+        true,
+        false,
+        true,
+        true,
+        false
+      ]
+    }
+  ],
+  "rest": {
+    "sleepHours": 7.8,
+    "sleepTarget": 7.5,
+    "sleepQuality": 89,
+    "relaxationMinutes": 45,
+    "relaxationTarget": 45,
+    "lastRestActivity": "Evening unhurried walk & novel reading",
+    "recoveryScore": 92,
+    "recoveryStatus": "Optimal"
+  },
+  "productivityBreakdown": {
+    "score": 73,
+    "workDoneRate": 64,
+    "habitsRate": 66.7,
+    "restRecoveryRate": 97.2,
+    "habitsCompleted": 4,
+    "totalHabits": 6,
+    "tasksCompleted": 2,
+    "tasksTarget": 5,
+    "deepWorkHours": 7.9,
+    "deepWorkTarget": 6,
+    "sleepHours": 7.8,
+    "sleepTarget": 7.5,
+    "relaxationMinutes": 45,
+    "relaxationTarget": 45,
+    "formula": "40% Work Done (2 tasks, 7.9h focus) + 35% Habits (4/6) + 25% Rest (7.8h sleep, 45.0m relaxation)"
+  },
+  "cities": [
+    {
+      "id": "city-london",
+      "name": "London",
+      "country": "UK",
+      "temp": 14,
+      "feelsLike": 12,
+      "condition": "Rainy",
+      "humidity": 82,
+      "windSpeed": 19,
+      "uvIndex": 2,
+      "high": 16,
+      "low": 9,
+      "forecast": [
+        {
+          "day": "Thu",
+          "temp": 15,
+          "condition": "Cloudy"
+        },
+        {
+          "day": "Fri",
+          "temp": 13,
+          "condition": "Rainy"
+        },
+        {
+          "day": "Sat",
+          "temp": 17,
+          "condition": "Partly Cloudy"
+        },
+        {
+          "day": "Sun",
+          "temp": 18,
+          "condition": "Sunny"
+        },
+        {
+          "day": "Mon",
+          "temp": 15,
+          "condition": "Windy"
+        }
+      ],
+      "isPinned": true,
+      "alert": "Rain expected continuously until 16:30 BST."
+    },
+    {
+      "id": "city-nyc",
+      "name": "New York",
+      "country": "USA",
+      "temp": 19,
+      "feelsLike": 18,
+      "condition": "Partly Cloudy",
+      "humidity": 58,
+      "windSpeed": 14,
+      "uvIndex": 5,
+      "high": 22,
+      "low": 12,
+      "forecast": [
+        {
+          "day": "Thu",
+          "temp": 20,
+          "condition": "Sunny"
+        },
+        {
+          "day": "Fri",
+          "temp": 21,
+          "condition": "Partly Cloudy"
+        },
+        {
+          "day": "Sat",
+          "temp": 18,
+          "condition": "Rainy"
+        },
+        {
+          "day": "Sun",
+          "temp": 16,
+          "condition": "Sunny"
+        },
+        {
+          "day": "Mon",
+          "temp": 19,
+          "condition": "Sunny"
+        }
+      ],
+      "isPinned": true,
+      "alert": null
+    },
+    {
+      "id": "city-tokyo",
+      "name": "Tokyo",
+      "country": "Japan",
+      "temp": 21,
+      "feelsLike": 20,
+      "condition": "Sunny",
+      "humidity": 52,
+      "windSpeed": 11,
+      "uvIndex": 6,
+      "high": 23,
+      "low": 15,
+      "forecast": [
+        {
+          "day": "Thu",
+          "temp": 22,
+          "condition": "Sunny"
+        },
+        {
+          "day": "Fri",
+          "temp": 24,
+          "condition": "Partly Cloudy"
+        },
+        {
+          "day": "Sat",
+          "temp": 20,
+          "condition": "Rainy"
+        },
+        {
+          "day": "Sun",
+          "temp": 22,
+          "condition": "Sunny"
+        },
+        {
+          "day": "Mon",
+          "temp": 21,
+          "condition": "Partly Cloudy"
+        }
+      ],
+      "isPinned": false,
+      "alert": null
+    },
+    {
+      "id": "city-johannesburg",
+      "name": "Johannesburg",
+      "country": "South Africa",
+      "temp": 26,
+      "feelsLike": 27,
+      "condition": "Sunny",
+      "humidity": 38,
+      "windSpeed": 13,
+      "uvIndex": 8,
+      "high": 28,
+      "low": 14,
+      "forecast": [
+        {
+          "day": "Thu",
+          "temp": 27,
+          "condition": "Sunny"
+        },
+        {
+          "day": "Fri",
+          "temp": 28,
+          "condition": "Thunderstorm"
+        },
+        {
+          "day": "Sat",
+          "temp": 25,
+          "condition": "Partly Cloudy"
+        },
+        {
+          "day": "Sun",
+          "temp": 26,
+          "condition": "Sunny"
+        },
+        {
+          "day": "Mon",
+          "temp": 27,
+          "condition": "Sunny"
+        }
+      ],
+      "isPinned": false,
+      "alert": "High UV warning (Index: 8). Sun protection recommended."
+    }
+  ],
+  "calendarEvents": [
+    {
+      "id": "cal-1",
+      "title": "Executive Sprint Review & Architecture Sync",
+      "date": "2026-10-28",
+      "startTime": "09:30",
+      "endTime": "10:30",
+      "category": "work",
+      "location": "Google Meet",
+      "description": "Review cross-platform WebSocket sync protocol and Python analytics accuracy.",
+      "emailNotification": true,
+      "completed": true
+    },
+    {
+      "id": "cal-2",
+      "title": "Python ML Pipeline Benchmark Test",
+      "date": "2026-10-28",
+      "startTime": "13:00",
+      "endTime": "14:15",
+      "category": "work",
+      "location": "Dev Sandbox",
+      "description": "Verify Z-score anomaly detector performance against multi-city telemetry.",
+      "emailNotification": true,
+      "completed": false
+    },
+    {
+      "id": "cal-3",
+      "title": "Mindful Recovery & Disconnect Walk",
+      "date": "2026-10-28",
+      "startTime": "17:30",
+      "endTime": "18:15",
+      "category": "rest",
+      "location": "Outdoors",
+      "description": "Screen-free relaxing walk to balance daily productivity.",
+      "emailNotification": true,
+      "completed": false
+    }
+  ],
+  "tasks": [
+    {
+      "id": "task-1",
+      "title": "Complete architectural review for cloud streaming service",
+      "priority": "high",
+      "category": "Engineering",
+      "completed": true,
+      "dueDate": "Today"
+    },
+    {
+      "id": "task-2",
+      "title": "Run Python time-series regression model on Q4 burn",
+      "priority": "high",
+      "category": "Analytics",
+      "completed": true,
+      "dueDate": "Today"
+    },
+    {
+      "id": "task-3",
+      "title": "Review pull request: cross-platform WebSocket reconnection",
+      "priority": "medium",
+      "category": "Engineering",
+      "completed": false,
+      "dueDate": "Today"
+    },
+    {
+      "id": "task-4",
+      "title": "Verify automated email briefing dispatcher rules",
+      "priority": "low",
+      "category": "Automation",
+      "completed": false,
+      "dueDate": "Tomorrow"
+    },
+    {
+      "id": "task-5",
+      "title": "Audit security headers and push notification permissions",
+      "priority": "medium",
+      "category": "Security",
+      "completed": false,
+      "dueDate": "Oct 30"
+    }
+  ],
+  "notes": [
+    {
+      "id": "note-1",
+      "title": "System Architecture Insight",
+      "content": "WebSocket connection handles delta replication while Python executes statistical regression in <1ms.",
+      "category": "Engineering",
+      "createdAt": "Today at 08:15"
+    }
+  ],
+  "newsArticles": [
+    {
+      "id": "news-1",
+      "topic": "AI & Tech",
+      "title": "Next-Gen Multi-Agent Architectures Outperform Monolithic LLMs in Complex Logic",
+      "source": "ArXiv Tech Brief",
+      "timeAgo": "25m ago",
+      "summary": "Distributed agent swarms with isolated specialized responsibilities achieve 42% higher synthesis accuracy with lower token footprint.",
+      "readTime": "4 min read",
+      "url": "https://example.com/ai-agents"
+    },
+    {
+      "id": "news-2",
+      "topic": "Python & Dev",
+      "title": "Python Subinterpreters and the Removal of the GIL: What High-Concurrency Engineers Need to Know",
+      "source": "Python Engineering Journal",
+      "timeAgo": "1h ago",
+      "summary": "PEP 703 and free-threaded CPython builds unlock true multi-core CPU scaling for analytical computing pipelines.",
+      "readTime": "6 min read",
+      "url": "https://example.com/python-gil"
+    },
+    {
+      "id": "news-3",
+      "topic": "Science & Space",
+      "title": "James Webb Space Telescope Identifies Atmospheric Carbon Dioxide on Distant Habitable-Zone Exoplanet",
+      "source": "Astrophysical Letters",
+      "timeAgo": "3h ago",
+      "summary": "Spectroscopic transmission readings confirm atmospheric stability and photochemical equilibria 120 light years away.",
+      "readTime": "5 min read",
+      "url": "https://example.com/jwst-exoplanet"
+    }
+  ],
+  "selectedNewsTopic": "All",
+  "customNewsKeywords": [
+    "Quantum Computing",
+    "Edge AI",
+    "Rest Science"
+  ],
+  "funFacts": [
+    {
+      "id": "fact-1",
+      "category": "Tech & Python",
+      "fact": "Python is named after the British comedy troupe Monty Python, not the snake genus.",
+      "didYouKnow": "Guido van Rossum was reading the published scripts from 'Monty Python's Flying Circus' when he began developing the language in December 1989.",
+      "likes": 42,
+      "isSaved": true
+    },
+    {
+      "id": "fact-2",
+      "category": "Science",
+      "fact": "During deep sleep, the brain's glymphatic system clears metabolic waste twice as fast as during wakefulness.",
+      "didYouKnow": "Resting and relaxation literally physically detoxify your brain cells and consolidate long-term memory.",
+      "likes": 58,
+      "isSaved": true
+    },
+    {
+      "id": "fact-3",
+      "category": "Nature & Space",
+      "fact": "Venus is the only planet in our solar system that spins clockwise (retrograde rotation).",
+      "didYouKnow": "A day on Venus (243 Earth days) is longer than its entire year around the Sun (225 Earth days).",
+      "likes": 67,
+      "isSaved": true
+    }
+  ],
+  "currentFactIndex": 0,
+  "timeSeries": [
+    {
+      "date": "2026-10-22",
+      "productivity": 76,
+      "deepWorkHours": 5.2,
+      "energy": 72,
+      "expenses": 42.5,
+      "tasksDone": 6
+    },
+    {
+      "date": "2026-10-23",
+      "productivity": 82,
+      "deepWorkHours": 6,
+      "energy": 78,
+      "expenses": 38,
+      "tasksDone": 7
+    },
+    {
+      "date": "2026-10-24",
+      "productivity": 88,
+      "deepWorkHours": 6.8,
+      "energy": 84,
+      "expenses": 95.2,
+      "tasksDone": 9
+    },
+    {
+      "date": "2026-10-25",
+      "productivity": 94,
+      "deepWorkHours": 7.5,
+      "energy": 88,
+      "expenses": 24,
+      "tasksDone": 10
+    },
+    {
+      "date": "2026-10-26",
+      "productivity": 85,
+      "deepWorkHours": 5.8,
+      "energy": 80,
+      "expenses": 145,
+      "tasksDone": 7
+    },
+    {
+      "date": "2026-10-27",
+      "productivity": 91,
+      "deepWorkHours": 7.2,
+      "energy": 86,
+      "expenses": 52.8,
+      "tasksDone": 8
+    },
+    {
+      "date": "2026-10-28",
+      "productivity": 95,
+      "deepWorkHours": 7.9,
+      "energy": 90,
+      "expenses": 35,
+      "tasksDone": 11
+    }
+  ],
+  "emails": [
+    {
+      "id": "em-digest-1793200683163",
+      "sender": "OmniSync Python Subsystem <briefing@omnisync.internal>",
+      "subject": "OmniSync Executive Briefing — October 28, 2026",
+      "snippet": "Daily executive briefing generated for motlashupingkitso@gmail.com...",
+      "body": "OmniSync Daily Digest for Kitso Motlashuping (October 28, 2026)\nProductivity: 95%\nDeep Work: 7.9 hrs\nNote: Your synchronized devices and analytical pipelines are operating smoothly.\n",
+      "html": "\n    <!DOCTYPE html>\n    <html lang=\"en\">\n    <head>\n      <meta charset=\"utf-8\">\n      <style>\n        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 24px; }\n        .card { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; max-width: 600px; margin: 0 auto; overflow: hidden; }\n        .header { background: #0f172a; color: #ffffff; padding: 28px 24px; }\n        .title { font-size: 20px; font-weight: 700; margin: 0 0 6px 0; letter-spacing: -0.02em; }\n        .subtitle { font-size: 13px; color: #94a3b8; margin: 0; }\n        .content { padding: 24px; }\n        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }\n        .metric-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; }\n        .metric-label { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.05em; }\n        .metric-val { font-size: 22px; font-weight: 700; color: #0f172a; margin-top: 4px; }\n        .section-heading { font-size: 14px; font-weight: 600; color: #334155; margin: 24px 0 10px 0; padding-bottom: 6px; border-bottom: 1px solid #f1f5f9; }\n        .task-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #f8fafc; }\n        .badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }\n        .badge-done { background: #ecfdf5; color: #047857; }\n        .badge-pending { background: #fff7ed; color: #c2410c; }\n        .footer { padding: 20px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; text-align: center; }\n      </style>\n    </head>\n    <body>\n      <div class=\"card\">\n        <div class=\"header\">\n          <h1 class=\"title\">OmniSync Daily Executive Digest</h1>\n          <p class=\"subtitle\">October 28, 2026 · Generated for Kitso Motlashuping (motlashupingkitso@gmail.com)</p>\n        </div>\n        <div class=\"content\">\n          <p style=\"font-size: 14px; line-height: 1.5; color: #475569; margin: 0;\">\n            Your synchronized devices and analytical pipelines are operating smoothly.\n          </p>\n          \n          <div class=\"section-heading\">Key Performance Indicators</div>\n          <div class=\"metric-grid\">\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Productivity Index</div>\n              <div class=\"metric-val\">95%</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Deep Work Hours</div>\n              <div class=\"metric-val\">7.9 hrs</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Tasks Completed</div>\n              <div class=\"metric-val\">2</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Active Sync Nodes</div>\n              <div class=\"metric-val\">1 Connected</div>\n            </div>\n          </div>\n          \n          <div class=\"section-heading\">Recent Tasks & Milestones</div>\n          <div>\n    \n            <div class=\"task-row\">\n              <span>Complete architectural review for cloud streaming service</span>\n              <span class=\"badge badge-done\">Completed</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Run Python time-series regression model on Q4 burn</span>\n              <span class=\"badge badge-done\">Completed</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Review pull request: cross-platform WebSocket reconnection</span>\n              <span class=\"badge badge-pending\">In Progress</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Verify automated email briefing dispatcher rules</span>\n              <span class=\"badge badge-pending\">In Progress</span>\n            </div>\n        \n          <div class=\"section-heading\" style=\"color: #b91c1c;\">Detected Statistical Outliers</div>\n        \n            <div style=\"background: #fef2f2; border: 1px solid #fee2e2; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #991b1b; margin-top: 6px;\">\n              <strong>Productivity</strong>: Unusual productivity drop of 76.0 (vs average 87.3)\n            </div>\n            \n            <div style=\"background: #fef2f2; border: 1px solid #fee2e2; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #991b1b; margin-top: 6px;\">\n              <strong>Energy</strong>: Unusual energy drop of 72.0 (vs average 82.6)\n            </div>\n            \n        </div>\n        <div class=\"footer\">\n          Dispatched by OmniSync Python Analytics Subsystem · Real-Time Cross-Device Sync Active\n        </div>\n      </div>\n    </body>\n    </html>\n    ",
+      "timestamp": "Just now",
+      "date": "2026-10-28T15:18:03.163Z",
+      "read": false,
+      "priority": "high",
+      "tags": [
+        "Briefing",
+        "Python",
+        "Executive"
+      ],
+      "starred": true
+    },
+    {
+      "id": "em-101",
+      "sender": "Apex Cloud Services <alerts@apexcloud.io>",
+      "subject": "Production cluster scale event: +4 worker pods active",
+      "snippet": "Autoscaler automatically expanded cluster 'eu-prod-core' following real-time traffic spike...",
+      "body": "Hello Kitso,\n\nYour production cluster 'eu-prod-core' automatically provisioned 4 additional worker nodes following an ingress spike. Current cluster health is 99.98% with 0 dropped frames.\n\nLatency: 14ms\nSync State: Clean\n\nNo manual intervention is required at this time.\n\nBest,\nApex Cloud Operations",
+      "timestamp": "10 mins ago",
+      "date": "2026-10-28T14:55:00Z",
+      "read": false,
+      "priority": "high",
+      "tags": [
+        "Infrastructure",
+        "Alert"
+      ],
+      "starred": true
+    },
+    {
+      "id": "em-102",
+      "sender": "Sarah Lin <sarah.lin@synthworks.org>",
+      "subject": "Updated dataset for Python predictive model & anomalies",
+      "snippet": "Attached is the normalized sensor and telemetry stream from the pilot deployment...",
+      "body": "Hi Kitso,\n\nI just pushed the consolidated metrics from yesterday's stress test. The anomaly detection algorithm flagged two unusual variance clusters around 14:00.\n\nCan you run your Python script on the new dataset and verify whether the Z-score exceeds our 1.8 threshold?\n\nThanks,\nSarah",
+      "timestamp": "45 mins ago",
+      "date": "2026-10-28T14:20:00Z",
+      "read": true,
+      "priority": "medium",
+      "tags": [
+        "Data",
+        "Collaborator"
+      ],
+      "starred": false
+    },
+    {
+      "id": "em-103",
+      "sender": "Finance & Accounts <invoices@fintech-global.com>",
+      "subject": "Monthly Subscription Summary: Cloud Infra & Developer Tools",
+      "snippet": "Your statement for the billing cycle ending October 28 is available for review...",
+      "body": "Dear Customer,\n\nYour statement for the current billing cycle is ready. Total charges: $248.50 across compute, egress, and database instances. All services were auto-debited.\n\nThank you for choosing Fintech Global.",
+      "timestamp": "3 hours ago",
+      "date": "2026-10-28T12:00:00Z",
+      "read": true,
+      "priority": "low",
+      "tags": [
+        "Finance",
+        "Receipt"
+      ],
+      "starred": false
+    }
+  ],
+  "notifications": [
+    {
+      "id": "notif-1",
+      "title": "Real-time sync established",
+      "message": "Sync node connected across 3 registered client devices.",
+      "type": "sync",
+      "timestamp": "Just now",
+      "read": false
+    },
+    {
+      "id": "notif-2",
+      "title": "Python model anomaly check complete",
+      "message": "Forecast projected +4.2% productivity acceleration for next 7 days.",
+      "type": "analytics",
+      "timestamp": "12m ago",
+      "read": false
+    },
+    {
+      "id": "notif-3",
+      "title": "High priority email received",
+      "message": "Apex Cloud Services reported cluster scale event.",
+      "type": "email",
+      "timestamp": "28m ago",
+      "read": true
+    }
+  ],
+  "triggers": [
+    {
+      "id": "trig-1",
+      "name": "Productivity Dip Alert",
+      "metric": "productivity",
+      "condition": "<",
+      "threshold": 75,
+      "channel": "push",
+      "enabled": true
+    },
+    {
+      "id": "trig-2",
+      "name": "Deep Work Target Milestone",
+      "metric": "deepWorkHours",
+      "condition": ">=",
+      "threshold": 7,
+      "channel": "push",
+      "enabled": true
+    },
+    {
+      "id": "trig-3",
+      "name": "High Expense Warning",
+      "metric": "expenses",
+      "condition": ">",
+      "threshold": 100,
+      "channel": "email",
+      "enabled": true
+    }
+  ],
+  "pythonAnalytics": {
+    "calculatedAt": "2026-10-28T15:53:09.374998",
+    "sampleSize": 7,
+    "productivityBreakdown": {
+      "score": 73,
+      "workDoneRate": 64,
+      "habitsRate": 66.7,
+      "restRecoveryRate": 97.2,
+      "habitsCompleted": 4,
+      "totalHabits": 6,
+      "tasksCompleted": 2,
+      "tasksTarget": 5,
+      "deepWorkHours": 7.9,
+      "deepWorkTarget": 6,
+      "sleepHours": 7.8,
+      "sleepTarget": 7.5,
+      "relaxationMinutes": 45,
+      "relaxationTarget": 45,
+      "formula": "40% Work Done (2 tasks, 7.9h focus) + 35% Habits (4/6) + 25% Rest (7.8h sleep, 45.0m relaxation)"
+    },
+    "metrics": {
+      "productivity": {
+        "current": 73,
+        "average": 84.14,
+        "stdDev": 7.12,
+        "movingAverage3d": 83,
+        "trendSlope": 0.214,
+        "trendDirection": "rising",
+        "confidenceR2": 0.004,
+        "forecast7d": [
+          {
+            "date": "2026-10-29",
+            "projected": 85,
+            "upperBound": 94.11,
+            "lowerBound": 75.89
+          },
+          {
+            "date": "2026-10-30",
+            "projected": 85.21,
+            "upperBound": 94.33,
+            "lowerBound": 76.1
+          },
+          {
+            "date": "2026-10-31",
+            "projected": 85.43,
+            "upperBound": 94.54,
+            "lowerBound": 76.32
+          },
+          {
+            "date": "2026-11-01",
+            "projected": 85.64,
+            "upperBound": 94.76,
+            "lowerBound": 76.53
+          },
+          {
+            "date": "2026-11-02",
+            "projected": 85.86,
+            "upperBound": 94.97,
+            "lowerBound": 76.74
+          },
+          {
+            "date": "2026-11-03",
+            "projected": 86.07,
+            "upperBound": 95.18,
+            "lowerBound": 76.96
+          },
+          {
+            "date": "2026-11-04",
+            "projected": 86.29,
+            "upperBound": 95.4,
+            "lowerBound": 77.17
+          }
+        ]
+      },
+      "deepWorkHours": {
+        "current": 7.9,
+        "average": 6.63,
+        "stdDev": 0.91,
+        "movingAverage3d": 6.97,
+        "trendSlope": 0.339,
+        "trendDirection": "rising",
+        "confidenceR2": 0.551,
+        "forecast7d": [
+          {
+            "date": "2026-10-29",
+            "projected": 8,
+            "upperBound": 9.17,
+            "lowerBound": 6.83
+          },
+          {
+            "date": "2026-10-30",
+            "projected": 8.3,
+            "upperBound": 9.47,
+            "lowerBound": 7.13
+          },
+          {
+            "date": "2026-10-31",
+            "projected": 8.7,
+            "upperBound": 9.87,
+            "lowerBound": 7.53
+          },
+          {
+            "date": "2026-11-01",
+            "projected": 9,
+            "upperBound": 10.17,
+            "lowerBound": 7.83
+          },
+          {
+            "date": "2026-11-02",
+            "projected": 9.3,
+            "upperBound": 10.47,
+            "lowerBound": 8.13
+          },
+          {
+            "date": "2026-11-03",
+            "projected": 9.7,
+            "upperBound": 10.87,
+            "lowerBound": 8.53
+          },
+          {
+            "date": "2026-11-04",
+            "projected": 10,
+            "upperBound": 11.17,
+            "lowerBound": 8.83
+          }
+        ]
+      },
+      "energy": {
+        "current": 90,
+        "average": 82.57,
+        "stdDev": 5.83,
+        "movingAverage3d": 85.33,
+        "trendSlope": 2.357,
+        "trendDirection": "rising",
+        "confidenceR2": 0.654,
+        "forecast7d": [
+          {
+            "date": "2026-10-29",
+            "projected": 92,
+            "upperBound": 99.46,
+            "lowerBound": 84.54
+          },
+          {
+            "date": "2026-10-30",
+            "projected": 94.36,
+            "upperBound": 101.82,
+            "lowerBound": 86.9
+          },
+          {
+            "date": "2026-10-31",
+            "projected": 96.71,
+            "upperBound": 104.17,
+            "lowerBound": 89.26
+          },
+          {
+            "date": "2026-11-01",
+            "projected": 99.07,
+            "upperBound": 106.53,
+            "lowerBound": 91.61
+          },
+          {
+            "date": "2026-11-02",
+            "projected": 100,
+            "upperBound": 107.46,
+            "lowerBound": 92.54
+          },
+          {
+            "date": "2026-11-03",
+            "projected": 100,
+            "upperBound": 107.46,
+            "lowerBound": 92.54
+          },
+          {
+            "date": "2026-11-04",
+            "projected": 100,
+            "upperBound": 107.46,
+            "lowerBound": 92.54
+          }
+        ]
+      },
+      "expenses": {
+        "current": 35,
+        "average": 61.79,
+        "stdDev": 40.01,
+        "movingAverage3d": 77.6,
+        "trendSlope": 2.032,
+        "trendDirection": "rising",
+        "confidenceR2": 0.01,
+        "forecast7d": [
+          {
+            "date": "2026-10-29",
+            "projected": 69.91,
+            "upperBound": 121.12,
+            "lowerBound": 18.7
+          },
+          {
+            "date": "2026-10-30",
+            "projected": 71.95,
+            "upperBound": 123.16,
+            "lowerBound": 20.74
+          },
+          {
+            "date": "2026-10-31",
+            "projected": 73.98,
+            "upperBound": 125.19,
+            "lowerBound": 22.77
+          },
+          {
+            "date": "2026-11-01",
+            "projected": 76.01,
+            "upperBound": 127.22,
+            "lowerBound": 24.8
+          },
+          {
+            "date": "2026-11-02",
+            "projected": 78.04,
+            "upperBound": 129.25,
+            "lowerBound": 26.83
+          },
+          {
+            "date": "2026-11-03",
+            "projected": 80.08,
+            "upperBound": 131.29,
+            "lowerBound": 28.87
+          },
+          {
+            "date": "2026-11-04",
+            "projected": 82.11,
+            "upperBound": 133.32,
+            "lowerBound": 30.9
+          }
+        ]
+      },
+      "tasksDone": {
+        "current": 11,
+        "average": 8.29,
+        "stdDev": 1.67,
+        "movingAverage3d": 8.67,
+        "trendSlope": 0.536,
+        "trendDirection": "rising",
+        "confidenceR2": 0.414,
+        "forecast7d": [
+          {
+            "date": "2026-10-29",
+            "projected": 10,
+            "upperBound": 12.13,
+            "lowerBound": 7.87
+          },
+          {
+            "date": "2026-10-30",
+            "projected": 11,
+            "upperBound": 13.13,
+            "lowerBound": 8.87
+          },
+          {
+            "date": "2026-10-31",
+            "projected": 12,
+            "upperBound": 14.13,
+            "lowerBound": 9.87
+          },
+          {
+            "date": "2026-11-01",
+            "projected": 12,
+            "upperBound": 14.13,
+            "lowerBound": 9.87
+          },
+          {
+            "date": "2026-11-02",
+            "projected": 13,
+            "upperBound": 15.13,
+            "lowerBound": 10.87
+          },
+          {
+            "date": "2026-11-03",
+            "projected": 13,
+            "upperBound": 15.13,
+            "lowerBound": 10.87
+          },
+          {
+            "date": "2026-11-04",
+            "projected": 14,
+            "upperBound": 16.13,
+            "lowerBound": 11.87
+          }
+        ]
+      }
+    },
+    "anomalies": [
+      {
+        "id": "anom-energy-0",
+        "date": "2026-10-22",
+        "metric": "energy",
+        "value": 72,
+        "expected": 82.57,
+        "zScore": -1.81,
+        "type": "drop",
+        "severity": "medium",
+        "description": "Unusual energy drop of 72.0 (vs average 82.6)"
+      },
+      {
+        "id": "anom-expenses-4",
+        "date": "2026-10-26",
+        "metric": "expenses",
+        "value": 145,
+        "expected": 61.79,
+        "zScore": 2.08,
+        "type": "surge",
+        "severity": "high",
+        "description": "Unusual expenses surge of 145.0 (vs average 61.8)"
+      },
+      {
+        "id": "anom-tasksDone-6",
+        "date": "2026-10-28",
+        "metric": "tasksDone",
+        "value": 11,
+        "expected": 8.29,
+        "zScore": 1.63,
+        "type": "surge",
+        "severity": "medium",
+        "description": "Unusual tasksDone surge of 11.0 (vs average 8.3)"
+      }
+    ],
+    "correlations": {
+      "deepWork_vs_energy": 0.98,
+      "deepWork_vs_tasks": 0.94
+    }
+  }
+}

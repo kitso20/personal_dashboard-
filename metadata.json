@@ -1,0 +1,6 @@
+{
+  "name": "OmniSync - Python-Powered Personal Dashboard",
+  "description": "Executive personal dashboard with Python analytics, interactive data visualization, native push notifications, email integration, and real-time cross-device sync.",
+  "requestFramePermissions": ["notifications"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
