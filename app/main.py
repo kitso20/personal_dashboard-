@@ -3,7 +3,6 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.middleware.sessions import SessionMiddleware
-import os
 
 from app.routes import auth, dashboard
 from app.config import settings
@@ -31,8 +30,8 @@ app.include_router(dashboard.router)
 async def home(request: Request):
     user = request.session.get('user')
     if user:
-        return templates.TemplateResponse("index.html", {"request": request, "user": user, "logged_in": True})
-    return templates.TemplateResponse("index.html", {"request": request, "user": None, "logged_in": False})
+        return templates.TemplateResponse(request, "index.html", {"user": user, "logged_in": True})
+    return templates.TemplateResponse(request, "index.html", {"user": None, "logged_in": False})
 
 if __name__ == "__main__":
     import uvicorn
