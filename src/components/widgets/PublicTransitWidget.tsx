@@ -100,13 +100,14 @@ export const PublicTransitWidget: React.FC<PublicTransitWidgetProps> = ({
   const currentStationId = state.selectedTransitStationId || 'times-square';
   const currentStation = stations.find((s) => s.id === currentStationId) || stations[0];
 
-  // Periodic departure countdown ticker
+  // Periodic departure countdown ticker (only one instance should drive it)
   useEffect(() => {
+    if (variant !== 'full-schedule') return;
     const timer = setInterval(() => {
       dispatchAction('TICK_TRANSIT_SCHEDULES');
     }, 45000);
     return () => clearInterval(timer);
-  }, [dispatchAction]);
+  }, [dispatchAction, variant]);
 
   const handleRefresh = async () => {
     setRefreshing(true);
@@ -134,18 +135,61 @@ export const PublicTransitWidget: React.FC<PublicTransitWidgetProps> = ({
 
   // Quick glance variant (Card 2 in the screenshot)
   if (variant === 'quick-glance') {
+    const nextMetro = [...(currentStation.metroLines || [])].sort(
+      (a, b) => a.arrivalMinutes - b.arrivalMinutes
+    )[0];
+    const nextBus = [...(currentStation.busLines || [])].sort(
+      (a, b) => a.arrivalMinutes - b.arrivalMinutes
+    )[0];
+    const metroCodes = Array.from(
+      new Set((currentStation.metroLines || []).map((line) => line.lineCode))
+    );
+    const busCodes = Array.from(
+      new Set((currentStation.busLines || []).map((line) => line.lineCode))
+    );
+
     return (
       <div className="bg-white/80 dark:bg-[#12151b] backdrop-blur-md rounded-2xl p-5 border border-slate-200/80 dark:border-white/[0.08] shadow-sm flex flex-col justify-between h-full min-h-[175px]">
-        <div className="flex items-center justify-between">
-          <h3 className="text-[15px] font-semibold text-slate-800 dark:text-white">
-            Public Transit
-          </h3>
-          <button
-            onClick={() => setOptionsMenuOpen(!optionsMenuOpen)}
-            className="p-1 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.05]"
-          >
-            <MoreHorizontal className="w-4 h-4" />
-          </button>
+        <div className="flex items-center justify-between gap-2">
+          <div className="min-w-0">
+            <h3 className="text-[15px] font-semibold text-slate-800 dark:text-white">
+              Public Transit
+            </h3>
+            <p className="text-[11px] text-slate-500 dark:text-neutral-400 truncate">
+              {currentStation.name}
+            </p>
+          </div>
+          <div className="relative shrink-0">
+            <button
+              onClick={() => setStationMenuOpen(!stationMenuOpen)}
+              className="p-1 rounded-md text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-white/[0.05]"
+              title="Switch station"
+              aria-label="Switch transit station"
+            >
+              <ChevronDown className="w-4 h-4" />
+            </button>
+            {stationMenuOpen && (
+              <div className="absolute right-0 top-7 z-30 w-56 bg-white dark:bg-[#181b22] border border-slate-200 dark:border-white/[0.1] rounded-xl shadow-xl py-1 text-xs">
+                {stations.map((st) => (
+                  <button
+                    key={st.id}
+                    onClick={() => {
+                      dispatchAction('SELECT_TRANSIT_STATION', { stationId: st.id });
+                      setStationMenuOpen(false);
+                    }}
+                    className={`w-full text-left px-3 py-2 flex items-center justify-between hover:bg-slate-100 dark:hover:bg-white/[0.06] ${
+                      st.id === currentStation.id
+                        ? 'text-sky-600 dark:text-sky-400 font-semibold'
+                        : 'text-slate-700 dark:text-neutral-300'
+                    }`}
+                  >
+                    <span>{st.name}</span>
+                    {st.id === currentStation.id && <CheckCircle2 className="w-3.5 h-3.5" />}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="space-y-3 mt-3">
@@ -153,13 +197,15 @@ export const PublicTransitWidget: React.FC<PublicTransitWidgetProps> = ({
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-400 mb-1">
               METRO
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="text-sm font-semibold text-sky-600 dark:text-sky-400">
-                M7
+                {metroCodes.length ? metroCodes.join(', ') : 'No lines'}
               </span>
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 font-medium border border-emerald-200/50 dark:border-emerald-800/40">
-                Normal Service
-              </span>
+              {nextMetro && (
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 font-medium border border-emerald-200/50 dark:border-emerald-800/40">
+                  Next {nextMetro.arrivalMinutes} min
+                </span>
+              )}
             </div>
           </div>
 
@@ -167,13 +213,15 @@ export const PublicTransitWidget: React.FC<PublicTransitWidgetProps> = ({
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 dark:text-neutral-400 mb-1">
               BUS
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="text-sm font-semibold text-slate-700 dark:text-neutral-200">
-                M20, M34
+                {busCodes.length ? busCodes.join(', ') : 'No lines'}
               </span>
-              <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.05] text-slate-600 dark:text-neutral-300">
-                On Time
-              </span>
+              {nextBus && (
+                <span className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-white/[0.05] text-slate-600 dark:text-neutral-300">
+                  Next {nextBus.arrivalMinutes} min
+                </span>
+              )}
             </div>
           </div>
         </div>
