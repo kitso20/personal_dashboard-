@@ -7,3 +7,9 @@ __pycache__/
 .Python
 *.log
 .DS_Store
+*.sqlite3
+credentials.json
+token.json
+.pytest_cache/
+.coverage
+htmlcov/
