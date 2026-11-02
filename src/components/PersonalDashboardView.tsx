@@ -129,41 +129,19 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
     }
   ];
 
-  // Daily News Headlines list (numbered 1 to 4)
-  const dailyHeadlines = [
-    {
-      id: 'hl-1',
-      num: 1,
-      source: 'BBC News',
-      sourceType: 'bbc',
-      title: 'BBC News: COP28 Summit: Global Leaders Commit to Climate Goals',
-      timeAgo: '15m ago'
-    },
-    {
-      id: 'hl-2',
-      num: 2,
-      source: 'NY Times',
-      sourceType: 'nytimes',
-      title: 'NY Times: NYC Mayor Announces Major Infrastructure Initiative',
-      timeAgo: '42m ago'
-    },
-    {
-      id: 'hl-3',
-      num: 3,
-      source: 'TechCrunch',
-      sourceType: 'techcrunch',
-      title: 'TechCrunch: Google Unveils New AI Models for Healthcare',
-      timeAgo: '1h ago'
-    },
-    {
-      id: 'hl-4',
-      num: 4,
-      source: 'Reuters',
-      sourceType: 'reuters',
-      title: 'Reuters: Stock Markets Rally Amid Positive Economic Data',
-      timeAgo: '2h ago'
-    }
-  ];
+  const tempUnit = state.preferences.tempUnit || 'C';
+  const formatTemp = (celsius: number) =>
+    tempUnit === 'F' ? Math.round((celsius * 9) / 5 + 32) : Math.round(celsius);
+
+  // Daily News Headlines derived from the live curated sources feed
+  const dailyHeadlines = curatedSources.slice(0, 4).map((item, index) => ({
+    id: item.id,
+    num: index + 1,
+    source: item.source,
+    sourceType: item.sourceIcon,
+    title: item.title,
+    timeAgo: item.timeAgo
+  }));
 
   const unreadAlerts = state.notifications?.filter((n) => !n.read).length || 0;
 
@@ -427,8 +405,8 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
               <div className="flex items-center justify-between my-3">
                 <div>
                   <div className="text-5xl font-light tracking-tight text-slate-900 dark:text-white">
-                    {state.preferences.tempUnit === 'F' ? Math.round((activeCity.temp * 9) / 5 + 32) : activeCity.temp}
-                    °{state.preferences.tempUnit || 'C'}
+                    {formatTemp(activeCity.temp)}
+                    °{tempUnit}
                   </div>
                   <div className="text-sm font-medium text-slate-600 dark:text-neutral-300 mt-1">
                     {activeCity.condition}
@@ -451,7 +429,7 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
 
               {/* Details strip */}
               <div className="text-[11px] font-semibold uppercase tracking-wider text-slate-500 dark:text-neutral-400 pt-1 pb-3">
-                FEELS LIKE {activeCity.feelsLike}°{state.preferences.tempUnit || 'C'} | WIND {activeCity.windSpeed}km/h | HUMIDITY {activeCity.humidity}%
+                FEELS LIKE {formatTemp(activeCity.feelsLike)}°{tempUnit} | WIND {activeCity.windSpeed}km/h | HUMIDITY {activeCity.humidity}%
               </div>
             </div>
 
@@ -460,7 +438,7 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
               {(activeCity.forecast || []).slice(0, 5).map((f, i) => (
                 <div key={i} className="flex flex-col items-center">
                   <span className="text-[11px] font-medium text-slate-500 dark:text-neutral-400">
-                    {f.day} {f.temp}°C
+                    {f.day} {formatTemp(f.temp)}°{tempUnit}
                   </span>
                   <div className="my-1.5">{getWeatherIcon(f.condition)}</div>
                   <span className="text-[10px] text-slate-600 dark:text-neutral-300 truncate w-full">
