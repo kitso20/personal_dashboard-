@@ -12,6 +12,7 @@ async def login(request: Request):
     request.session['oauth_state'] = state
     return RedirectResponse(url=auth_url)
 
+@router.get("/auth/google/callback")
 @router.get("/auth/callback")
 async def auth_callback(request: Request, code: str = None, state: str = None, error: str = None):
     if error:
