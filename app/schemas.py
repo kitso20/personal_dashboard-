@@ -66,6 +66,12 @@ class EmailLogResponse(BaseModel):
     timestamp: datetime
 
 
+class EmailSendResponse(BaseModel):
+    status: str
+    message_id: str | None = None
+    log: EmailLogResponse
+
+
 class EmailStatusResponse(BaseModel):
     configured: bool
     sender: str | None = None
