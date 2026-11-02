@@ -16,6 +16,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const PORT = 3000;
+const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY;
+const OPENWEATHER_BASE_URL = process.env.OPENWEATHER_BASE_URL || 'https://api.openweathermap.org/data/2.5';
 const app = express();
 app.use(express.json());
 
@@ -354,6 +356,161 @@ const defaultState: any = {
       url: "https://example.com/jwst-exoplanet"
     }
   ],
+  curatedSources: [
+    {
+      id: "source-1",
+      source: "BBC News",
+      sourceIcon: "bbc",
+      title: "COP28 Summit: Global Leaders Commit to Accelerated Climate Goals",
+      timeAgo: "15m ago",
+      category: "World News",
+      url: "https://www.bbc.com/news"
+    },
+    {
+      id: "source-2",
+      source: "New York Times",
+      sourceIcon: "nytimes",
+      title: "NYC Mayor Announces Major Infrastructure Initiative",
+      timeAgo: "42m ago",
+      category: "Metropolitan",
+      url: "https://www.nytimes.com/"
+    },
+    {
+      id: "source-3",
+      source: "TechCrunch",
+      sourceIcon: "techcrunch",
+      title: "Google Unveils New AI Models for Healthcare",
+      timeAgo: "1h ago",
+      category: "Technology",
+      url: "https://techcrunch.com/"
+    },
+    {
+      id: "source-4",
+      source: "Reuters",
+      sourceIcon: "reuters",
+      title: "Stock Markets Rally Amid Positive Economic Data",
+      timeAgo: "2h ago",
+      category: "Economy",
+      url: "https://www.reuters.com/"
+    }
+  ],
+  transitStations: [
+    {
+      id: "times-square",
+      name: "Times Square - 42 St",
+      location: "Times Square, New York, NY",
+      metroLines: [
+        {
+          id: "ts-n-1",
+          lineCode: "N",
+          lineName: "N Train",
+          type: "metro",
+          badgeColor: "#000000",
+          badgeBg: "#FCCC0A",
+          badgeText: "N",
+          destination: "Coney Island",
+          arrivalMinutes: 4,
+          status: "Good Service"
+        },
+        {
+          id: "ts-n-2",
+          lineCode: "N",
+          lineName: "N Train",
+          type: "metro",
+          badgeColor: "#000000",
+          badgeBg: "#FCCC0A",
+          badgeText: "N",
+          destination: "Ditmars Blvd",
+          arrivalMinutes: 11,
+          status: "Good Service"
+        },
+        {
+          id: "ts-q-1",
+          lineCode: "Q",
+          lineName: "Q Train",
+          type: "metro",
+          badgeColor: "#000000",
+          badgeBg: "#FCCC0A",
+          badgeText: "Q",
+          destination: "Coney Island",
+          arrivalMinutes: 15,
+          status: "Good Service"
+        }
+      ],
+      busLines: [
+        {
+          id: "ts-bus-m7",
+          lineCode: "M7",
+          lineName: "M7",
+          type: "bus",
+          badgeColor: "#ffffff",
+          badgeBg: "#f97316",
+          badgeText: "M",
+          destination: "Columbus Ave",
+          arrivalMinutes: 5,
+          status: "On Time"
+        },
+        {
+          id: "ts-bus-m20",
+          lineCode: "M20",
+          lineName: "M20",
+          type: "bus",
+          badgeColor: "#ffffff",
+          badgeBg: "#0284c7",
+          badgeText: "M",
+          destination: "South Ferry",
+          arrivalMinutes: 10,
+          status: "On Time"
+        }
+      ]
+    },
+    {
+      id: "grand-central",
+      name: "Grand Central - 42 St",
+      location: "Midtown East, New York, NY",
+      metroLines: [
+        {
+          id: "gc-4-1",
+          lineCode: "4",
+          lineName: "4 Express",
+          type: "metro",
+          badgeColor: "#ffffff",
+          badgeBg: "#00933C",
+          badgeText: "4",
+          destination: "Woodlawn",
+          arrivalMinutes: 2,
+          status: "Good Service"
+        },
+        {
+          id: "gc-7-1",
+          lineCode: "7",
+          lineName: "7 Local",
+          type: "metro",
+          badgeColor: "#ffffff",
+          badgeBg: "#B933AD",
+          badgeText: "7",
+          destination: "Flushing - Main St",
+          arrivalMinutes: 6,
+          status: "Good Service"
+        }
+      ],
+      busLines: [
+        {
+          id: "gc-bus-m101",
+          lineCode: "M101",
+          lineName: "M101",
+          type: "bus",
+          badgeColor: "#ffffff",
+          badgeBg: "#0284c7",
+          badgeText: "M",
+          destination: "East Village",
+          arrivalMinutes: 7,
+          status: "On Time"
+        }
+      ]
+    }
+  ],
+  selectedTransitStationId: "times-square",
   selectedNewsTopic: "All",
   customNewsKeywords: ["Quantum Computing", "Edge AI", "Rest Science"],
   funFacts: [
@@ -550,7 +707,11 @@ function loadState() {
         rest: loaded.rest || defaultState.rest,
         documents: loaded.documents || defaultState.documents,
         user: { ...defaultState.user, ...(loaded.user || {}) },
-        preferences: { ...defaultState.preferences, ...(loaded.preferences || {}) }
+        preferences: { ...defaultState.preferences, ...(loaded.preferences || {}) },
+        transitStations: loaded.transitStations || defaultState.transitStations,
+        selectedTransitStationId: loaded.selectedTransitStationId || defaultState.selectedTransitStationId,
+        curatedSources: loaded.curatedSources || defaultState.curatedSources,
+        cities: loaded.cities || defaultState.cities
       };
     } else {
       saveState();
@@ -565,6 +726,142 @@ function saveState() {
     fs.writeFileSync(STATE_FILE, JSON.stringify(dashboardState, null, 2), 'utf-8');
   } catch (err) {
     console.error('Failed to persist state:', err);
+  }
+}
+
+function mapOpenWeatherIcon(condition: string): 'Sunny' | 'Partly Cloudy' | 'Cloudy' | 'Rainy' | 'Thunderstorm' | 'Snow' | 'Windy' {
+  const c = (condition || '').toLowerCase();
+  if (c.includes('thunder')) return 'Thunderstorm';
+  if (c.includes('drizzle') || c.includes('rain')) return 'Rainy';
+  if (c.includes('snow')) return 'Snow';
+  if (c.includes('tornado') || c.includes('squall')) return 'Windy';
+  if (c.includes('clear')) return 'Sunny';
+  if (c.includes('few') || c.includes('scattered')) return 'Partly Cloudy';
+  if (c.includes('cloud')) return 'Cloudy';
+  return 'Cloudy';
+}
+
+function iconToCondition(icon?: string): 'Sunny' | 'Partly Cloudy' | 'Cloudy' | 'Rainy' | 'Thunderstorm' | 'Snow' | 'Windy' {
+  if (!icon) return 'Cloudy';
+  if (icon.startsWith('01')) return 'Sunny';
+  if (icon.startsWith('02')) return 'Partly Cloudy';
+  if (icon.startsWith('03') || icon.startsWith('04')) return 'Cloudy';
+  if (icon.startsWith('09') || icon.startsWith('10')) return 'Rainy';
+  if (icon.startsWith('11')) return 'Thunderstorm';
+  if (icon.startsWith('13')) return 'Snow';
+  if (icon.startsWith('50')) return 'Windy';
+  return 'Cloudy';
+}
+
+async function fetchLiveWeather(city: string, country?: string | null) {
+  if (!OPENWEATHER_API_KEY) {
+    return null;
+  }
+
+  try {
+    const query = country ? `${city},${country}` : city;
+    const [currentRes, forecastRes] = await Promise.all([
+      fetch(`${OPENWEATHER_BASE_URL}/weather?q=${encodeURIComponent(query)}&appid=${OPENWEATHER_API_KEY}&units=metric`),
+      fetch(`${OPENWEATHER_BASE_URL}/forecast?q=${encodeURIComponent(query)}&appid=${OPENWEATHER_API_KEY}&units=metric`)
+    ]);
+
+    if (!currentRes.ok || !forecastRes.ok) {
+      return null;
+    }
+
+    const current: any = await currentRes.json();
+    const forecast: any = await forecastRes.json();
+
+    const weather = Array.isArray(current.weather) && current.weather[0] ? current.weather[0] : {};
+    const icon = weather.icon;
+    const condition = iconToCondition(icon) !== 'Cloudy' ? iconToCondition(icon) : mapOpenWeatherIcon(weather.main);
+
+    const byDay = new Map<string, any[]>();
+    if (Array.isArray(forecast.list)) {
+      for (const entry of forecast.list) {
+        const dayKey = entry.dt_txt?.split(' ')[0];
+        if (!dayKey) continue;
+        if (!byDay.has(dayKey)) byDay.set(dayKey, []);
+        byDay.get(dayKey)?.push(entry);
+      }
+    }
+
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const forecastOut: any[] = [];
+    let count = 0;
+    for (const [dayKey, entries] of Array.from(byDay.entries()).sort()) {
+      if (count >= 5) break;
+      const date = new Date(`${dayKey}T00:00:00`);
+      const dayName = days[date.getDay()];
+      const middle = entries[Math.floor(entries.length / 2)];
+      const mWeather = Array.isArray(middle?.weather) && middle.weather[0] ? middle.weather[0] : {};
+      const mIcon = mWeather.icon;
+      const mCond = iconToCondition(mIcon) !== 'Cloudy' ? iconToCondition(mIcon) : mapOpenWeatherIcon(mWeather.main);
+      forecastOut.push({ day: dayName, temp: Math.round(middle?.main?.temp ?? 0), condition: mCond });
+      count += 1;
+    }
+
+    const todayEntries = byDay.size ? Array.from(byDay.values())[0] : [];
+    const temps = todayEntries.map((e: any) => e?.main?.temp).filter((v: any) => typeof v === 'number');
+    const high = temps.length ? Math.round(Math.max(...temps)) : Math.round(current.main?.temp ?? 0);
+    const low = temps.length ? Math.round(Math.min(...temps)) : Math.round((current.main?.temp ?? 0) - 3);
+
+    return {
+      temp: Math.round(current.main?.temp ?? 0),
+      feelsLike: Math.round(current.main?.feels_like ?? current.main?.temp ?? 0),
+      condition,
+      humidity: current.main?.humidity ?? 0,
+      windSpeed: Math.round((current.wind?.speed ?? 0) * 3.6),
+      uvIndex: 0,
+      high,
+      low,
+      forecast: forecastOut
+    };
+  } catch (err) {
+    console.warn('Live weather fetch failed for', city, err);
+    return null;
+  }
+}
+
+async function refreshAllWeather() {
+  if (!Array.isArray(dashboardState.cities) || dashboardState.cities.length === 0) {
+    return;
+  }
+  if (!OPENWEATHER_API_KEY) {
+    return;
+  }
+
+  let changed = false;
+  for (const city of dashboardState.cities) {
+    const live = await fetchLiveWeather(city.name, city.country);
+    if (!live) continue;
+    if (
+      city.temp !== live.temp ||
+      city.feelsLike !== live.feelsLike ||
+      city.condition !== live.condition ||
+      city.humidity !== live.humidity ||
+      city.windSpeed !== live.windSpeed ||
+      city.high !== live.high ||
+      city.low !== live.low ||
+      JSON.stringify(city.forecast) !== JSON.stringify(live.forecast)
+    ) {
+      city.temp = live.temp;
+      city.feelsLike = live.feelsLike;
+      city.condition = live.condition;
+      city.humidity = live.humidity;
+      city.windSpeed = live.windSpeed;
+      city.high = live.high;
+      city.low = live.low;
+      city.forecast = live.forecast;
+      if (!city.alert && live.temp >= 35) {
+        city.alert = 'High temperature advisory.';
+      }
+      changed = true;
+    }
+  }
+  if (changed) {
+    saveState();
+    broadcast('STATE_UPDATED', { state: dashboardState, action: 'WEATHER_REFRESH' });
   }
 }
 
@@ -661,6 +958,9 @@ function broadcast(eventType: string, data: any, excludeWs?: WebSocket) {
     }
   });
 }
+
+refreshAllWeather();
+setInterval(refreshAllWeather, 10 * 60 * 1000);
 
 wss.on('connection', (ws: WebSocket, req) => {
   const userAgent = req.headers['user-agent'] || 'Unknown Device';
@@ -897,6 +1197,12 @@ app.post('/api/action', async (req: Request, res: Response) => {
           isPinned: false,
           alert: payload.alert || (baseTemp > 30 ? "Extreme heat warning" : null)
         };
+
+        const live = await fetchLiveWeather(payload.name, payload.country);
+        if (live) {
+          Object.assign(newCity, live);
+          newCity.alert = live.temp >= 35 ? 'High temperature advisory.' : null;
+        }
 
         dashboardState.cities.push(newCity);
         notifyTitle = `Weather Tracked: ${newCity.name}`;
@@ -1239,6 +1545,64 @@ app.post('/api/action', async (req: Request, res: Response) => {
           if (payload.history) h.history = payload.history;
         }
         await refreshPythonAnalytics();
+        break;
+      }
+
+      // Transit Actions
+      case 'SELECT_TRANSIT_STATION': {
+        dashboardState.selectedTransitStationId = payload.stationId;
+        break;
+      }
+
+      case 'TICK_TRANSIT_SCHEDULES': {
+        if (dashboardState.transitStations) {
+          dashboardState.transitStations.forEach((st: any) => {
+            st.metroLines?.forEach((line: any) => {
+              line.arrivalMinutes =
+                line.arrivalMinutes <= 1
+                  ? Math.floor(Math.random() * 12) + 4
+                  : line.arrivalMinutes - 1;
+            });
+            st.busLines?.forEach((line: any) => {
+              line.arrivalMinutes =
+                line.arrivalMinutes <= 1
+                  ? Math.floor(Math.random() * 10) + 3
+                  : line.arrivalMinutes - 1;
+            });
+          });
+        }
+        break;
+      }
+
+      case 'ADD_TRANSIT_DEPARTURE': {
+        const targetStation = dashboardState.transitStations?.find(
+          (s: any) =>
+            s.id === (payload.stationId || dashboardState.selectedTransitStationId)
+        );
+        if (targetStation) {
+          const newDep = {
+            id: 'dep-' + Date.now(),
+            lineCode: payload.lineCode || 'A',
+            lineName: payload.lineName || `${payload.lineCode} Train`,
+            type: payload.type || 'metro',
+            badgeColor: payload.badgeColor || '#000000',
+            badgeBg: payload.badgeBg || '#FCCC0A',
+            badgeText: payload.badgeText || (payload.lineCode?.[0] || 'A'),
+            destination: payload.destination || 'Downtown',
+            arrivalMinutes: payload.arrivalMinutes || 6,
+            status: 'Good Service'
+          };
+          if (payload.type === 'bus') {
+            targetStation.busLines = targetStation.busLines || [];
+            targetStation.busLines.push(newDep);
+          } else {
+            targetStation.metroLines = targetStation.metroLines || [];
+            targetStation.metroLines.push(newDep);
+          }
+          notifyTitle = 'Transit Route Added';
+          notifyMessage = `Added ${newDep.lineName} to ${targetStation.name}`;
+          notifyType = 'system';
+        }
         break;
       }
 

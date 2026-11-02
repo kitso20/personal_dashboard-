@@ -22,6 +22,8 @@ import { HabitsWidget } from './components/widgets/HabitsWidget';
 import { NewsWidget } from './components/widgets/NewsWidget';
 import { WeatherWidget } from './components/widgets/WeatherWidget';
 import { RelaxationWidget } from './components/widgets/RelaxationWidget';
+import { PersonalDashboardView } from './components/PersonalDashboardView';
+import { PublicTransitWidget } from './components/widgets/PublicTransitWidget';
 import {
   Bell,
   X,
@@ -113,161 +115,199 @@ export default function App() {
 
       {/* Main View Area */}
       <div className="flex-1 flex flex-col h-screen overflow-hidden relative z-10 min-w-0">
-        {/* Subtle Top Utility Strip */}
-        <header className="h-14 border-b border-white/[0.06] bg-[#0c0e12]/80 backdrop-blur-md px-6 flex items-center justify-between shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
-              <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">
-                {status === 'connected' ? 'Mesh Synced' : status}
-              </span>
-            </div>
-            <span className="text-neutral-700">·</span>
-            <span className="text-xs font-mono text-neutral-400 hidden sm:inline">
-              Python 3.10 Engine
-            </span>
+        {activeTab === 'overview' ? (
+          <div className="flex-1 overflow-y-auto">
+            {state.preferences?.activeLayout === 'mission_control' ? (
+              <div className="p-6">
+                <DashboardOverview
+                  state={state}
+                  dispatchAction={dispatchAction}
+                  onNavigateToPython={() => setActiveTab('workspace')}
+                  onNavigateToEmail={() => setActiveTab('email')}
+                  onNavigateToHabits={() => setActiveTab('habits')}
+                  onOpenQuickAction={() => setQuickActionOpen(true)}
+                />
+              </div>
+            ) : (
+              <PersonalDashboardView
+                state={state}
+                dispatchAction={dispatchAction}
+                onOpenNotifications={() => setActiveTab('notifications')}
+                onOpenQuickAction={() => setQuickActionOpen(true)}
+                onNavigateTab={(tab) => setActiveTab(tab)}
+              />
+            )}
           </div>
-
-          <div className="flex items-center gap-3">
-            {/* Device Mesh Indicator Button */}
-            <button
-              onClick={() => setIsDeviceModalOpen(true)}
-              className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono text-neutral-400 hover:text-neutral-200 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] transition"
-              title="View connected sync devices"
-            >
-              <Laptop className="w-3.5 h-3.5 text-neutral-400" />
-              <span>{devices.length} {devices.length === 1 ? 'device' : 'devices'}</span>
-            </button>
-
-            {/* Notifications Button */}
-            <button
-              onClick={() => setActiveTab('notifications')}
-              className="relative p-1.5 rounded-full text-neutral-400 hover:text-white hover:bg-white/[0.06] transition"
-              title="Notification alerts"
-            >
-              <Bell className="w-4 h-4" />
-              {unreadAlerts > 0 && (
-                <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-[#0c0e12]" />
-              )}
-            </button>
-          </div>
-        </header>
-
-        {/* Scrollable View Canvas */}
-        <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6">
-          {/* HOME / DASHBOARD OVERVIEW */}
-          {activeTab === 'overview' && (
-            <DashboardOverview
-              state={state}
-              dispatchAction={dispatchAction}
-              onNavigateToPython={() => setActiveTab('workspace')}
-              onNavigateToEmail={() => setActiveTab('email')}
-              onOpenQuickAction={() => setQuickActionOpen(true)}
-            />
-          )}
-
-          {/* TASKS VIEW */}
-          {activeTab === 'tasks' && (
-            <div className="max-w-6xl mx-auto space-y-6">
-              <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
-                <div>
-                  <h1 className="text-3xl font-serif text-white font-normal">
-                    Tasks & Routine Habits
-                  </h1>
-                  <p className="text-xs text-neutral-400 mt-1 font-mono">
-                    Real-time synchronized across all client sessions
-                  </p>
+        ) : (
+          <>
+            {/* Top Utility Strip */}
+            <header className="h-14 border-b border-white/[0.06] bg-[#0c0e12]/80 backdrop-blur-md px-6 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                  <span className="text-xs font-mono text-neutral-400 uppercase tracking-wider">
+                    {status === 'connected' ? 'Mesh Synced' : status}
+                  </span>
                 </div>
+                <span className="text-neutral-700">·</span>
+                <span className="text-xs font-mono text-neutral-400 hidden sm:inline">
+                  Python 3.10 Engine
+                </span>
+              </div>
+
+              <div className="flex items-center gap-3">
                 <button
-                  onClick={() => setQuickActionOpen(true)}
-                  className="px-3.5 py-1.5 rounded-full bg-rose-500 hover:bg-rose-600 text-xs font-semibold text-white shadow-sm transition"
+                  onClick={() => setIsDeviceModalOpen(true)}
+                  className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono text-neutral-400 hover:text-neutral-200 bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.06] transition"
+                  title="View connected sync devices"
                 >
-                  + New Task
+                  <Laptop className="w-3.5 h-3.5 text-neutral-400" />
+                  <span>{devices.length} {devices.length === 1 ? 'device' : 'devices'}</span>
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('notifications')}
+                  className="relative p-1.5 rounded-full text-neutral-400 hover:text-white hover:bg-white/[0.06] transition"
+                  title="Notification alerts"
+                >
+                  <Bell className="w-4 h-4" />
+                  {unreadAlerts > 0 && (
+                    <span className="absolute top-1 right-1 w-2 h-2 bg-rose-500 rounded-full ring-2 ring-[#0c0e12]" />
+                  )}
                 </button>
               </div>
+            </header>
 
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <ToDoWidget
-                  tasks={state.tasks || []}
-                  notes={state.notes || []}
-                  onAddTodo={(task) => dispatchAction('ADD_TODO', task)}
-                  onToggleTodo={(id) => dispatchAction('TOGGLE_TODO', { id })}
-                  onDeleteTodo={(id) => dispatchAction('DELETE_TODO', { id })}
-                  onDeleteNote={(id) => dispatchAction('DELETE_NOTE', { id })}
-                />
-                <HabitsWidget
-                  habits={state.habits || []}
-                  onToggleHabit={(id) => dispatchAction('TOGGLE_HABIT', { id })}
-                  onAddHabit={(habit) => dispatchAction('ADD_HABIT', habit)}
-                  onDeleteHabit={(id) => dispatchAction('DELETE_HABIT', { id })}
-                />
-              </div>
-            </div>
-          )}
+            {/* Scrollable View Canvas */}
+            <main className="flex-1 overflow-y-auto px-4 sm:px-8 py-6">
+              {/* WIDGETS GALLERY */}
+              {activeTab === 'widgets' && (
+                <div className="max-w-7xl mx-auto space-y-6">
+                  <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
+                    <div>
+                      <h1 className="text-2xl font-bold text-white">Interactive Widgets Hub</h1>
+                      <p className="text-xs text-neutral-400 mt-1">Live transit schedules, weather telemetry, daily habits, and relaxation</p>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab('overview')}
+                      className="px-3.5 py-1.5 rounded-xl bg-sky-500 text-white text-xs font-semibold hover:bg-sky-600 transition shadow-xs"
+                    >
+                      ← Personal Dashboard
+                    </button>
+                  </div>
 
-          {/* WORKSPACE & PYTHON STUDIO */}
-          {activeTab === 'workspace' && (
-            <div className="max-w-7xl mx-auto space-y-6">
-              <PythonStudio state={state} dispatchAction={dispatchAction} />
-              <div className="pt-6">
-                <WeatherWidget
-                  cities={state.cities || []}
-                  tempUnit={state.preferences?.tempUnit || 'C'}
-                  onAddCity={(city) => dispatchAction('ADD_CITY', city)}
-                  onRemoveCity={(id) => dispatchAction('REMOVE_CITY', { id })}
-                  onTogglePin={(id) => dispatchAction('TOGGLE_PIN_CITY', { id })}
-                  onToggleUnit={(unit) => dispatchAction('UPDATE_PREFERENCES', { tempUnit: unit })}
-                  onSendEmailAlert={(cityId) => dispatchAction('SEND_WEATHER_ALERT_EMAIL', { cityId })}
-                />
-              </div>
-            </div>
-          )}
-
-          {/* LIBRARY (NEWS, FACTS, DIGESTS) */}
-          {activeTab === 'library' && (
-            <div className="max-w-7xl mx-auto space-y-6">
-              <div className="border-b border-white/[0.06] pb-4">
-                <h1 className="text-3xl font-serif text-white font-normal">
-                  Knowledge Library & Briefs
-                </h1>
-                <p className="text-xs text-neutral-400 mt-1 font-mono">
-                  Curated topic feeds, research telemetry, and digests
-                </p>
-              </div>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <NewsWidget
-                  articles={state.newsArticles || []}
-                  selectedTopic={state.selectedNewsTopic || 'All'}
-                  customKeywords={state.customNewsKeywords || []}
-                  userEmail={state.user?.email || 'motlashupingkitso@gmail.com'}
-                  onSelectTopic={(topic) => dispatchAction('SELECT_NEWS_TOPIC', { topic })}
-                  onAddKeyword={(keyword) => dispatchAction('ADD_NEWS_KEYWORD', { keyword })}
-                  onSendNewsDigest={(topic) => dispatchAction('SEND_NEWS_DIGEST_EMAIL', { topic })}
-                />
-                <div className="space-y-6">
-                  <RelaxationWidget
-                    rest={state.rest}
-                    onLogRest={(data) => dispatchAction('UPDATE_REST_METRICS', data)}
-                    onSendRestEmail={() => dispatchAction('SEND_REST_REMINDER_EMAIL', {})}
-                  />
-                  <div className="bg-[#101318] border border-white/[0.07] rounded-2xl p-5">
-                    <span className="text-[10px] font-mono tracking-widest text-neutral-400 uppercase">
-                      Quick Notes Archive
-                    </span>
-                    <div className="mt-3 space-y-2">
-                      {(state.notes || []).map((n) => (
-                        <div key={n.id} className="p-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
-                          <div className="text-xs font-medium text-white">{n.title}</div>
-                          <p className="text-xs text-neutral-400 mt-1">{n.content}</p>
-                          <div className="text-[10px] text-neutral-400 mt-1 font-mono">{n.createdAt}</div>
-                        </div>
-                      ))}
+                  <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                    <div className="lg:col-span-8 space-y-6">
+                      <PublicTransitWidget state={state} dispatchAction={dispatchAction} variant="full-schedule" />
+                      <WeatherWidget
+                        cities={state.cities || []}
+                        tempUnit={state.preferences?.tempUnit || 'C'}
+                        onAddCity={(city) => dispatchAction('ADD_CITY', city)}
+                        onRemoveCity={(id) => dispatchAction('REMOVE_CITY', { id })}
+                        onTogglePin={(id) => dispatchAction('TOGGLE_PIN_CITY', { id })}
+                        onToggleUnit={(unit) => dispatchAction('UPDATE_PREFERENCES', { tempUnit: unit })}
+                        onSendEmailAlert={(cityId) => dispatchAction('SEND_WEATHER_EMAIL_ALERT', { cityId })}
+                      />
+                    </div>
+                    <div className="lg:col-span-4 space-y-6">
+                      <PublicTransitWidget state={state} dispatchAction={dispatchAction} variant="quick-glance" />
+                      <HabitsWidget
+                        habits={state.habits || []}
+                        onToggleHabit={(id) => dispatchAction('TOGGLE_HABIT', { id })}
+                        onAddHabit={(habit) => dispatchAction('ADD_HABIT', habit)}
+                        onDeleteHabit={(id) => dispatchAction('DELETE_HABIT', { id })}
+                      />
+                      <RelaxationWidget
+                        rest={state.rest}
+                        onLogRest={(data) => dispatchAction('UPDATE_REST_METRICS', data)}
+                        onSendRestEmail={() => dispatchAction('SEND_REST_REMINDER_EMAIL', {})}
+                      />
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          )}
+              )}
+
+              {/* HABIT TRACKER / ACTIVITY VIEW */}
+              {activeTab === 'habits' && (
+                <HabitTrackerView
+                  state={state}
+                  dispatchAction={dispatchAction}
+                  onNavigateHome={() => setActiveTab('overview')}
+                />
+              )}
+
+              {/* PDF LIBRARY VIEW */}
+              {activeTab === 'library' && (
+                <PdfLibraryView
+                  state={state}
+                  dispatchAction={dispatchAction}
+                />
+              )}
+
+              {/* SETTINGS VIEW */}
+              {activeTab === 'settings' && (
+                <SettingsView
+                  state={state}
+                  dispatchAction={dispatchAction}
+                />
+              )}
+
+              {/* TASKS VIEW */}
+              {activeTab === 'tasks' && (
+                <div className="max-w-6xl mx-auto space-y-6">
+                  <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
+                    <div>
+                      <h1 className="text-3xl font-serif text-white font-normal">
+                        Tasks & Routine Habits
+                      </h1>
+                      <p className="text-xs text-neutral-400 mt-1 font-mono">
+                        Real-time synchronized across all client sessions
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setQuickActionOpen(true)}
+                      className="px-3.5 py-1.5 rounded-full bg-rose-500 hover:bg-rose-600 text-xs font-semibold text-white shadow-sm transition"
+                    >
+                      + New Task
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <ToDoWidget
+                      tasks={state.tasks || []}
+                      notes={state.notes || []}
+                      onAddTodo={(task) => dispatchAction('ADD_TODO', task)}
+                      onToggleTodo={(id) => dispatchAction('TOGGLE_TODO', { id })}
+                      onDeleteTodo={(id) => dispatchAction('DELETE_TODO', { id })}
+                      onDeleteNote={(id) => dispatchAction('DELETE_NOTE', { id })}
+                    />
+                    <HabitsWidget
+                      habits={state.habits || []}
+                      onToggleHabit={(id) => dispatchAction('TOGGLE_HABIT', { id })}
+                      onAddHabit={(habit) => dispatchAction('ADD_HABIT', habit)}
+                      onDeleteHabit={(id) => dispatchAction('DELETE_HABIT', { id })}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {/* WORKSPACE & PYTHON STUDIO */}
+              {activeTab === 'workspace' && (
+                <div className="max-w-7xl mx-auto space-y-6">
+                  <PythonStudio state={state} dispatchAction={dispatchAction} />
+                  <div className="pt-6">
+                    <WeatherWidget
+                      cities={state.cities || []}
+                      tempUnit={state.preferences?.tempUnit || 'C'}
+                      onAddCity={(city) => dispatchAction('ADD_CITY', city)}
+                      onRemoveCity={(id) => dispatchAction('REMOVE_CITY', { id })}
+                      onTogglePin={(id) => dispatchAction('TOGGLE_PIN_CITY', { id })}
+                      onToggleUnit={(unit) => dispatchAction('UPDATE_PREFERENCES', { tempUnit: unit })}
+                      onSendEmailAlert={(cityId) => dispatchAction('SEND_WEATHER_EMAIL_ALERT', { cityId })}
+                    />
+                  </div>
+                </div>
+              )}
 
           {/* SKILLS & AUTOMATED TRIGGERS */}
           {activeTab === 'skills' && (
@@ -389,6 +429,8 @@ export default function App() {
             />
           )}
         </main>
+          </>
+        )}
       </div>
 
       {/* Device Mesh Modal */}

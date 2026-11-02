@@ -530,7 +530,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
               {currentTime}
             </div>
             <div className="text-xs text-neutral-400 mt-1">
-              {currentDateFormatted}
+              {currentWeekday}, {currentMonth} {currentDay}
             </div>
           </div>
           <div className="text-[10px] font-mono text-neutral-400">

@@ -253,9 +253,41 @@ export interface DeviceInfo {
   online: boolean;
 }
 
+export interface TransitDeparture {
+  id: string;
+  lineCode: string; // e.g. 'N', 'Q', 'M7', 'M20'
+  lineName: string; // e.g. 'N Train', 'Q Train', 'M7', 'M20'
+  type: 'metro' | 'bus';
+  badgeColor: string; // hex or tailwind class
+  badgeBg: string;
+  badgeText: string;
+  destination: string;
+  arrivalMinutes: number;
+  status?: string;
+  headsign?: string;
+}
+
+export interface TransitStation {
+  id: string;
+  name: string;
+  location: string;
+  metroLines: TransitDeparture[];
+  busLines: TransitDeparture[];
+}
+
+export interface CuratedSourceItem {
+  id: string;
+  source: string;
+  sourceIcon: 'bbc' | 'nytimes' | 'techcrunch' | 'reuters' | 'generic';
+  title: string;
+  timeAgo: string;
+  url?: string;
+  category: string;
+}
+
 export interface DashboardState {
   user: UserProfile;
-  preferences: Preferences;
+  preferences: Preferences & { dashboardTheme?: 'light' | 'dark'; activeLayout?: 'personal' | 'mission_control' };
   timeSeries: TimeSeriesEntry[];
   habits: Habit[];
   rest: RestAndRelaxation;
@@ -265,6 +297,9 @@ export interface DashboardState {
   calendarEvents: CalendarEvent[];
   cities: WeatherCity[];
   newsArticles: NewsArticle[];
+  curatedSources?: CuratedSourceItem[];
+  transitStations?: TransitStation[];
+  selectedTransitStationId?: string;
   selectedNewsTopic: string;
   customNewsKeywords: string[];
   funFacts: FunFact[];
@@ -278,6 +313,7 @@ export interface DashboardState {
     news: boolean;
     funfacts: boolean;
     analytics: boolean;
+    transit?: boolean;
   };
   emails: EmailMessage[];
   notifications: NotificationItem[];
@@ -285,3 +321,4 @@ export interface DashboardState {
   pythonAnalytics: PythonAnalytics | null;
   documents?: PdfDocument[];
 }
+

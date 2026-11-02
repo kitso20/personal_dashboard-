@@ -8,9 +8,14 @@
   },
   "preferences": {
     "theme": "dark",
+    "tempUnit": "C",
     "emailDigestSchedule": "08:00 daily",
     "pushSound": true,
-    "realtimeSync": true
+    "realtimeSync": true,
+    "emailWeatherAlerts": true,
+    "emailCalendarReminders": true,
+    "emailNewsDigest": true,
+    "emailRestReminders": true
   },
   "activeWidgets": {
     "habits": true,
@@ -152,39 +157,39 @@
       "id": "city-london",
       "name": "London",
       "country": "UK",
-      "temp": 14,
-      "feelsLike": 12,
-      "condition": "Rainy",
-      "humidity": 82,
-      "windSpeed": 19,
+      "temp": 11,
+      "feelsLike": 10,
+      "condition": "Cloudy",
+      "humidity": 84,
+      "windSpeed": 23,
       "uvIndex": 2,
-      "high": 16,
-      "low": 9,
+      "high": 11,
+      "low": 10,
       "forecast": [
         {
+          "day": "Mon",
+          "temp": 10,
+          "condition": "Cloudy"
+        },
+        {
+          "day": "Tue",
+          "temp": 11,
+          "condition": "Cloudy"
+        },
+        {
+          "day": "Wed",
+          "temp": 11,
+          "condition": "Cloudy"
+        },
+        {
           "day": "Thu",
-          "temp": 15,
+          "temp": 10,
           "condition": "Cloudy"
         },
         {
           "day": "Fri",
-          "temp": 13,
-          "condition": "Rainy"
-        },
-        {
-          "day": "Sat",
-          "temp": 17,
-          "condition": "Partly Cloudy"
-        },
-        {
-          "day": "Sun",
-          "temp": 18,
-          "condition": "Sunny"
-        },
-        {
-          "day": "Mon",
-          "temp": 15,
-          "condition": "Windy"
+          "temp": 11,
+          "condition": "Cloudy"
         }
       ],
       "isPinned": true,
@@ -194,39 +199,39 @@
       "id": "city-nyc",
       "name": "New York",
       "country": "USA",
-      "temp": 19,
-      "feelsLike": 18,
-      "condition": "Partly Cloudy",
-      "humidity": 58,
-      "windSpeed": 14,
+      "temp": 10,
+      "feelsLike": 9,
+      "condition": "Sunny",
+      "humidity": 72,
+      "windSpeed": 11,
       "uvIndex": 5,
-      "high": 22,
-      "low": 12,
+      "high": 17,
+      "low": 10,
       "forecast": [
         {
-          "day": "Thu",
-          "temp": 20,
+          "day": "Mon",
+          "temp": 16,
+          "condition": "Cloudy"
+        },
+        {
+          "day": "Tue",
+          "temp": 8,
           "condition": "Sunny"
+        },
+        {
+          "day": "Wed",
+          "temp": 11,
+          "condition": "Sunny"
+        },
+        {
+          "day": "Thu",
+          "temp": 15,
+          "condition": "Cloudy"
         },
         {
           "day": "Fri",
-          "temp": 21,
-          "condition": "Partly Cloudy"
-        },
-        {
-          "day": "Sat",
-          "temp": 18,
-          "condition": "Rainy"
-        },
-        {
-          "day": "Sun",
-          "temp": 16,
-          "condition": "Sunny"
-        },
-        {
-          "day": "Mon",
-          "temp": 19,
-          "condition": "Sunny"
+          "temp": 17,
+          "condition": "Cloudy"
         }
       ],
       "isPinned": true,
@@ -236,38 +241,38 @@
       "id": "city-tokyo",
       "name": "Tokyo",
       "country": "Japan",
-      "temp": 21,
-      "feelsLike": 20,
-      "condition": "Sunny",
-      "humidity": 52,
+      "temp": 15,
+      "feelsLike": 14,
+      "condition": "Cloudy",
+      "humidity": 88,
       "windSpeed": 11,
       "uvIndex": 6,
-      "high": 23,
-      "low": 15,
+      "high": 15,
+      "low": 12,
       "forecast": [
         {
-          "day": "Thu",
-          "temp": 22,
-          "condition": "Sunny"
-        },
-        {
-          "day": "Fri",
-          "temp": 24,
+          "day": "Mon",
+          "temp": 14,
           "condition": "Partly Cloudy"
         },
         {
-          "day": "Sat",
-          "temp": 20,
+          "day": "Tue",
+          "temp": 14,
+          "condition": "Cloudy"
+        },
+        {
+          "day": "Wed",
+          "temp": 15,
           "condition": "Rainy"
         },
         {
-          "day": "Sun",
-          "temp": 22,
-          "condition": "Sunny"
+          "day": "Thu",
+          "temp": 17,
+          "condition": "Cloudy"
         },
         {
-          "day": "Mon",
-          "temp": 21,
+          "day": "Fri",
+          "temp": 19,
           "condition": "Partly Cloudy"
         }
       ],
@@ -278,39 +283,39 @@
       "id": "city-johannesburg",
       "name": "Johannesburg",
       "country": "South Africa",
-      "temp": 26,
-      "feelsLike": 27,
-      "condition": "Sunny",
-      "humidity": 38,
-      "windSpeed": 13,
+      "temp": 28,
+      "feelsLike": 29,
+      "condition": "Cloudy",
+      "humidity": 50,
+      "windSpeed": 4,
       "uvIndex": 8,
       "high": 28,
-      "low": 14,
+      "low": 16,
       "forecast": [
         {
+          "day": "Mon",
+          "temp": 22,
+          "condition": "Rainy"
+        },
+        {
+          "day": "Tue",
+          "temp": 28,
+          "condition": "Cloudy"
+        },
+        {
+          "day": "Wed",
+          "temp": 30,
+          "condition": "Cloudy"
+        },
+        {
           "day": "Thu",
-          "temp": 27,
+          "temp": 32,
           "condition": "Sunny"
         },
         {
           "day": "Fri",
-          "temp": 28,
-          "condition": "Thunderstorm"
-        },
-        {
-          "day": "Sat",
-          "temp": 25,
+          "temp": 32,
           "condition": "Partly Cloudy"
-        },
-        {
-          "day": "Sun",
-          "temp": 26,
-          "condition": "Sunny"
-        },
-        {
-          "day": "Mon",
-          "temp": 27,
-          "condition": "Sunny"
         }
       ],
       "isPinned": false,
@@ -438,6 +443,161 @@
       "url": "https://example.com/jwst-exoplanet"
     }
   ],
+  "curatedSources": [
+    {
+      "id": "source-1",
+      "source": "BBC News",
+      "sourceIcon": "bbc",
+      "title": "COP28 Summit: Global Leaders Commit to Accelerated Climate Goals",
+      "timeAgo": "15m ago",
+      "category": "World News",
+      "url": "https://www.bbc.com/news"
+    },
+    {
+      "id": "source-2",
+      "source": "New York Times",
+      "sourceIcon": "nytimes",
+      "title": "NYC Mayor Announces Major Infrastructure Initiative",
+      "timeAgo": "42m ago",
+      "category": "Metropolitan",
+      "url": "https://www.nytimes.com/"
+    },
+    {
+      "id": "source-3",
+      "source": "TechCrunch",
+      "sourceIcon": "techcrunch",
+      "title": "Google Unveils New AI Models for Healthcare",
+      "timeAgo": "1h ago",
+      "category": "Technology",
+      "url": "https://techcrunch.com/"
+    },
+    {
+      "id": "source-4",
+      "source": "Reuters",
+      "sourceIcon": "reuters",
+      "title": "Stock Markets Rally Amid Positive Economic Data",
+      "timeAgo": "2h ago",
+      "category": "Economy",
+      "url": "https://www.reuters.com/"
+    }
+  ],
+  "transitStations": [
+    {
+      "id": "times-square",
+      "name": "Times Square - 42 St",
+      "location": "Times Square, New York, NY",
+      "metroLines": [
+        {
+          "id": "ts-n-1",
+          "lineCode": "N",
+          "lineName": "N Train",
+          "type": "metro",
+          "badgeColor": "#000000",
+          "badgeBg": "#FCCC0A",
+          "badgeText": "N",
+          "destination": "Coney Island",
+          "arrivalMinutes": 3,
+          "status": "Good Service"
+        },
+        {
+          "id": "ts-n-2",
+          "lineCode": "N",
+          "lineName": "N Train",
+          "type": "metro",
+          "badgeColor": "#000000",
+          "badgeBg": "#FCCC0A",
+          "badgeText": "N",
+          "destination": "Ditmars Blvd",
+          "arrivalMinutes": 10,
+          "status": "Good Service"
+        },
+        {
+          "id": "ts-q-1",
+          "lineCode": "Q",
+          "lineName": "Q Train",
+          "type": "metro",
+          "badgeColor": "#000000",
+          "badgeBg": "#FCCC0A",
+          "badgeText": "Q",
+          "destination": "Coney Island",
+          "arrivalMinutes": 14,
+          "status": "Good Service"
+        }
+      ],
+      "busLines": [
+        {
+          "id": "ts-bus-m7",
+          "lineCode": "M7",
+          "lineName": "M7",
+          "type": "bus",
+          "badgeColor": "#ffffff",
+          "badgeBg": "#f97316",
+          "badgeText": "M",
+          "destination": "Columbus Ave",
+          "arrivalMinutes": 4,
+          "status": "On Time"
+        },
+        {
+          "id": "ts-bus-m20",
+          "lineCode": "M20",
+          "lineName": "M20",
+          "type": "bus",
+          "badgeColor": "#ffffff",
+          "badgeBg": "#0284c7",
+          "badgeText": "M",
+          "destination": "South Ferry",
+          "arrivalMinutes": 9,
+          "status": "On Time"
+        }
+      ]
+    },
+    {
+      "id": "grand-central",
+      "name": "Grand Central - 42 St",
+      "location": "Midtown East, New York, NY",
+      "metroLines": [
+        {
+          "id": "gc-4-1",
+          "lineCode": "4",
+          "lineName": "4 Express",
+          "type": "metro",
+          "badgeColor": "#ffffff",
+          "badgeBg": "#00933C",
+          "badgeText": "4",
+          "destination": "Woodlawn",
+          "arrivalMinutes": 1,
+          "status": "Good Service"
+        },
+        {
+          "id": "gc-7-1",
+          "lineCode": "7",
+          "lineName": "7 Local",
+          "type": "metro",
+          "badgeColor": "#ffffff",
+          "badgeBg": "#B933AD",
+          "badgeText": "7",
+          "destination": "Flushing - Main St",
+          "arrivalMinutes": 5,
+          "status": "Good Service"
+        }
+      ],
+      "busLines": [
+        {
+          "id": "gc-bus-m101",
+          "lineCode": "M101",
+          "lineName": "M101",
+          "type": "bus",
+          "badgeColor": "#ffffff",
+          "badgeBg": "#0284c7",
+          "badgeText": "M",
+          "destination": "East Village",
+          "arrivalMinutes": 6,
+          "status": "On Time"
+        }
+      ]
+    }
+  ],
+  "selectedTransitStationId": "times-square",
   "selectedNewsTopic": "All",
   "customNewsKeywords": [
     "Quantum Computing",
@@ -533,10 +693,10 @@
     {
       "id": "em-digest-1793200683163",
       "sender": "OmniSync Python Subsystem <briefing@omnisync.internal>",
-      "subject": "OmniSync Executive Briefing — October 28, 2026",
+      "subject": "OmniSync Executive Briefing \u2014 October 28, 2026",
       "snippet": "Daily executive briefing generated for motlashupingkitso@gmail.com...",
       "body": "OmniSync Daily Digest for Kitso Motlashuping (October 28, 2026)\nProductivity: 95%\nDeep Work: 7.9 hrs\nNote: Your synchronized devices and analytical pipelines are operating smoothly.\n",
-      "html": "\n    <!DOCTYPE html>\n    <html lang=\"en\">\n    <head>\n      <meta charset=\"utf-8\">\n      <style>\n        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 24px; }\n        .card { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; max-width: 600px; margin: 0 auto; overflow: hidden; }\n        .header { background: #0f172a; color: #ffffff; padding: 28px 24px; }\n        .title { font-size: 20px; font-weight: 700; margin: 0 0 6px 0; letter-spacing: -0.02em; }\n        .subtitle { font-size: 13px; color: #94a3b8; margin: 0; }\n        .content { padding: 24px; }\n        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }\n        .metric-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; }\n        .metric-label { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.05em; }\n        .metric-val { font-size: 22px; font-weight: 700; color: #0f172a; margin-top: 4px; }\n        .section-heading { font-size: 14px; font-weight: 600; color: #334155; margin: 24px 0 10px 0; padding-bottom: 6px; border-bottom: 1px solid #f1f5f9; }\n        .task-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #f8fafc; }\n        .badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }\n        .badge-done { background: #ecfdf5; color: #047857; }\n        .badge-pending { background: #fff7ed; color: #c2410c; }\n        .footer { padding: 20px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; text-align: center; }\n      </style>\n    </head>\n    <body>\n      <div class=\"card\">\n        <div class=\"header\">\n          <h1 class=\"title\">OmniSync Daily Executive Digest</h1>\n          <p class=\"subtitle\">October 28, 2026 · Generated for Kitso Motlashuping (motlashupingkitso@gmail.com)</p>\n        </div>\n        <div class=\"content\">\n          <p style=\"font-size: 14px; line-height: 1.5; color: #475569; margin: 0;\">\n            Your synchronized devices and analytical pipelines are operating smoothly.\n          </p>\n          \n          <div class=\"section-heading\">Key Performance Indicators</div>\n          <div class=\"metric-grid\">\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Productivity Index</div>\n              <div class=\"metric-val\">95%</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Deep Work Hours</div>\n              <div class=\"metric-val\">7.9 hrs</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Tasks Completed</div>\n              <div class=\"metric-val\">2</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Active Sync Nodes</div>\n              <div class=\"metric-val\">1 Connected</div>\n            </div>\n          </div>\n          \n          <div class=\"section-heading\">Recent Tasks & Milestones</div>\n          <div>\n    \n            <div class=\"task-row\">\n              <span>Complete architectural review for cloud streaming service</span>\n              <span class=\"badge badge-done\">Completed</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Run Python time-series regression model on Q4 burn</span>\n              <span class=\"badge badge-done\">Completed</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Review pull request: cross-platform WebSocket reconnection</span>\n              <span class=\"badge badge-pending\">In Progress</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Verify automated email briefing dispatcher rules</span>\n              <span class=\"badge badge-pending\">In Progress</span>\n            </div>\n        \n          <div class=\"section-heading\" style=\"color: #b91c1c;\">Detected Statistical Outliers</div>\n        \n            <div style=\"background: #fef2f2; border: 1px solid #fee2e2; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #991b1b; margin-top: 6px;\">\n              <strong>Productivity</strong>: Unusual productivity drop of 76.0 (vs average 87.3)\n            </div>\n            \n            <div style=\"background: #fef2f2; border: 1px solid #fee2e2; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #991b1b; margin-top: 6px;\">\n              <strong>Energy</strong>: Unusual energy drop of 72.0 (vs average 82.6)\n            </div>\n            \n        </div>\n        <div class=\"footer\">\n          Dispatched by OmniSync Python Analytics Subsystem · Real-Time Cross-Device Sync Active\n        </div>\n      </div>\n    </body>\n    </html>\n    ",
+      "html": "\n    <!DOCTYPE html>\n    <html lang=\"en\">\n    <head>\n      <meta charset=\"utf-8\">\n      <style>\n        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 24px; }\n        .card { background: #ffffff; border-radius: 12px; border: 1px solid #e2e8f0; max-width: 600px; margin: 0 auto; overflow: hidden; }\n        .header { background: #0f172a; color: #ffffff; padding: 28px 24px; }\n        .title { font-size: 20px; font-weight: 700; margin: 0 0 6px 0; letter-spacing: -0.02em; }\n        .subtitle { font-size: 13px; color: #94a3b8; margin: 0; }\n        .content { padding: 24px; }\n        .metric-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 20px 0; }\n        .metric-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px; }\n        .metric-label { font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 600; letter-spacing: 0.05em; }\n        .metric-val { font-size: 22px; font-weight: 700; color: #0f172a; margin-top: 4px; }\n        .section-heading { font-size: 14px; font-weight: 600; color: #334155; margin: 24px 0 10px 0; padding-bottom: 6px; border-bottom: 1px solid #f1f5f9; }\n        .task-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; font-size: 13px; border-bottom: 1px solid #f8fafc; }\n        .badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 500; }\n        .badge-done { background: #ecfdf5; color: #047857; }\n        .badge-pending { background: #fff7ed; color: #c2410c; }\n        .footer { padding: 20px 24px; background: #f8fafc; border-top: 1px solid #e2e8f0; font-size: 12px; color: #64748b; text-align: center; }\n      </style>\n    </head>\n    <body>\n      <div class=\"card\">\n        <div class=\"header\">\n          <h1 class=\"title\">OmniSync Daily Executive Digest</h1>\n          <p class=\"subtitle\">October 28, 2026 \u00b7 Generated for Kitso Motlashuping (motlashupingkitso@gmail.com)</p>\n        </div>\n        <div class=\"content\">\n          <p style=\"font-size: 14px; line-height: 1.5; color: #475569; margin: 0;\">\n            Your synchronized devices and analytical pipelines are operating smoothly.\n          </p>\n          \n          <div class=\"section-heading\">Key Performance Indicators</div>\n          <div class=\"metric-grid\">\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Productivity Index</div>\n              <div class=\"metric-val\">95%</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Deep Work Hours</div>\n              <div class=\"metric-val\">7.9 hrs</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Tasks Completed</div>\n              <div class=\"metric-val\">2</div>\n            </div>\n            <div class=\"metric-box\">\n              <div class=\"metric-label\">Active Sync Nodes</div>\n              <div class=\"metric-val\">1 Connected</div>\n            </div>\n          </div>\n          \n          <div class=\"section-heading\">Recent Tasks & Milestones</div>\n          <div>\n    \n            <div class=\"task-row\">\n              <span>Complete architectural review for cloud streaming service</span>\n              <span class=\"badge badge-done\">Completed</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Run Python time-series regression model on Q4 burn</span>\n              <span class=\"badge badge-done\">Completed</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Review pull request: cross-platform WebSocket reconnection</span>\n              <span class=\"badge badge-pending\">In Progress</span>\n            </div>\n        \n            <div class=\"task-row\">\n              <span>Verify automated email briefing dispatcher rules</span>\n              <span class=\"badge badge-pending\">In Progress</span>\n            </div>\n        \n          <div class=\"section-heading\" style=\"color: #b91c1c;\">Detected Statistical Outliers</div>\n        \n            <div style=\"background: #fef2f2; border: 1px solid #fee2e2; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #991b1b; margin-top: 6px;\">\n              <strong>Productivity</strong>: Unusual productivity drop of 76.0 (vs average 87.3)\n            </div>\n            \n            <div style=\"background: #fef2f2; border: 1px solid #fee2e2; border-radius: 6px; padding: 10px 12px; font-size: 12px; color: #991b1b; margin-top: 6px;\">\n              <strong>Energy</strong>: Unusual energy drop of 72.0 (vs average 82.6)\n            </div>\n            \n        </div>\n        <div class=\"footer\">\n          Dispatched by OmniSync Python Analytics Subsystem \u00b7 Real-Time Cross-Device Sync Active\n        </div>\n      </div>\n    </body>\n    </html>\n    ",
       "timestamp": "Just now",
       "date": "2026-10-28T15:18:03.163Z",
       "read": false,
@@ -653,7 +813,7 @@
     }
   ],
   "pythonAnalytics": {
-    "calculatedAt": "2026-10-28T15:53:09.374998",
+    "calculatedAt": "2026-11-02T13:22:06.616407",
     "sampleSize": 7,
     "productivityBreakdown": {
       "score": 73,
@@ -978,5 +1138,107 @@
       "deepWork_vs_energy": 0.98,
       "deepWork_vs_tasks": 0.94
     }
-  }
+  },
+  "documents": [
+    {
+      "id": "doc-1",
+      "title": "Q3 Strategic Architecture & Python Engine Spec (v4.2)",
+      "category": "Architecture",
+      "fileSize": "1.4 MB",
+      "pages": 18,
+      "uploadedAt": "Oct 24, 2026",
+      "author": "Kitso Motlashuping",
+      "readingTime": "14 min",
+      "description": "Comprehensive technical blueprint covering the Python 3.10 analytics daemon, real-time WebSocket mesh synchronization, and Z-score outlier detection.",
+      "contentSections": [
+        {
+          "heading": "1. Executive Summary & Topology",
+          "text": "OmniSync couples a local Express 4 proxy gateway with a persistent Python 3.10 analytical engine. Connected client nodes maintain full duplex bidirectional state replication via low-latency WebSockets. Local SQLite/JSON mirrors guarantee zero-latency optimistic UI renders and offline operation."
+        },
+        {
+          "heading": "2. Real-Time Mesh Synchronization Protocol",
+          "text": "State mutations follow a transactional Command pattern. Each action payload transmits device fingerprint, Lamport logical timestamp, and differential entity keys. Conflicts resolve via server-authoritative reconciliation, emitting immediate push notifications across all active device peers."
+        },
+        {
+          "heading": "3. Least-Squares Linear Projection Engine",
+          "text": "Daily time-series telemetry computes trend slopes using numpy-equivalent least squares regression: slope = \u03a3((x - x\u0304)(y - \u0233)) / \u03a3((x - x\u0304)\u00b2). The R\u00b2 coefficient measures predictive reliability over 7-day rolling horizons."
+        },
+        {
+          "heading": "4. Anomaly Detection & Adaptive Thresholds",
+          "text": "The telemetry pipeline calculates rolling standard deviation \u03c3 and dynamic Z-score Z = (x - \u03bc) / \u03c3. Data points exceeding |Z| \u2265 2.0 trigger prioritized alerts across push notifications and executive email digests."
+        }
+      ]
+    },
+    {
+      "id": "doc-2",
+      "title": "Mission Control Operations & Protocol Manual",
+      "category": "Manual",
+      "fileSize": "2.1 MB",
+      "pages": 24,
+      "uploadedAt": "Oct 21, 2026",
+      "author": "Kitso Motlashuping",
+      "readingTime": "18 min",
+      "description": "Operational standard operating procedures for zero-downtime client sync, automated failovers, and routine trigger dispatch.",
+      "contentSections": [
+        {
+          "heading": "1. Operational Tenets",
+          "text": "Mission Control prioritizes instantaneous feedback, deterministic data persistence, and ergonomic cognitive dashboards. Every critical metric must be reachable within one keystroke or glance."
+        },
+        {
+          "heading": "2. Routine Dispatch & Pipeline Execution",
+          "text": "Automated routines (Morning Briefing, Website Pulse, Slack Sync, Daily Wrap-up) trigger on cron-aligned scheduler intervals. Failure fallbacks gracefully log incident traces to the internal telemetry buffer without disrupting user interactions."
+        },
+        {
+          "heading": "3. PWA Offline-First Integrity",
+          "text": "Service worker caches app shell assets, fonts, and core documents. Offline mutations queue into indexed client buffers and flush automatically once network mesh connectivity re-establishes."
+        }
+      ]
+    },
+    {
+      "id": "doc-3",
+      "title": "High-Performance Habit & Focus Engineering Guide",
+      "category": "Strategy",
+      "fileSize": "980 KB",
+      "pages": 12,
+      "uploadedAt": "Oct 18, 2026",
+      "author": "Mission Control Research",
+      "readingTime": "9 min",
+      "description": "Scientific handbook for habit stacking, circadian rhythm alignment, and 90-minute ultradian deep work blocks.",
+      "contentSections": [
+        {
+          "heading": "1. Ultradian Rhythm Optimization",
+          "text": "Human cognitive performance operates on 90-to-120 minute ultradian cycles. Scheduling deep focus sprints in 90-minute windows separated by 15-minute screen-free rest resets dopamine baseline and prevents late-afternoon cognitive fatigue."
+        },
+        {
+          "heading": "2. Habit Momentum & Consistency Multipliers",
+          "text": "Micro-habits stacked onto existing biological anchors (e.g., hydration immediately upon waking, 5-minute reflection prior to evening dinner) display a 4.2x higher 30-day retention rate compared to unanchored resolutions."
+        },
+        {
+          "heading": "3. Cognitive Restoration Protocols",
+          "text": "Rest is an active biological prerequisite for deep work. Non-sleep deep rest (NSDR), twilight walks, and 7.5+ hours of consolidated sleep drive memory consolidation and peak neural throughput."
+        }
+      ]
+    },
+    {
+      "id": "doc-4",
+      "title": "Clean Energy Grid & Solar Infrastructure Briefing 2026",
+      "category": "Report",
+      "fileSize": "3.6 MB",
+      "pages": 32,
+      "uploadedAt": "Oct 12, 2026",
+      "author": "Global Infrastructure Group",
+      "readingTime": "22 min",
+      "description": "Technical feasibility analysis on solar array telemetry, battery storage degradation, and distributed microgrid orchestration.",
+      "contentSections": [
+        {
+          "heading": "1. Distributed Microgrid Photovoltaic Telemetry",
+          "text": "Decentralized solar microgrids utilize automated irradiance sensors and MPPT charge controllers to maximize generation efficiency across variable atmospheric conditions."
+        },
+        {
+          "heading": "2. Storage Degradation & Thermal Management",
+          "text": "Lithium iron phosphate (LFP) energy storage cells maintain 80% capacity retention over 6,000 cycles when operational temperatures remain strictly regulated between 20\u00b0C and 25\u00b0C."
+        }
+      ]
+    }
+  ]
 }
