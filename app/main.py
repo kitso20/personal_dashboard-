@@ -10,7 +10,7 @@ from starlette.middleware.sessions import SessionMiddleware
 import app.models
 from app.config import settings
 from app.database import Base, engine
-from app.routes import api_auth, auth, dashboard
+from app.routes import api_auth, auth, dashboard, documents
 from app.schemas import HealthResponse
 
 
@@ -44,6 +44,7 @@ templates = Jinja2Templates(directory="templates")
 app.include_router(api_auth.router)
 app.include_router(auth.router)
 app.include_router(dashboard.router)
+app.include_router(documents.router)
 
 
 @app.get("/api/health", response_model=HealthResponse, tags=["health"])
