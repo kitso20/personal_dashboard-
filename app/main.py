@@ -10,7 +10,7 @@ from starlette.middleware.sessions import SessionMiddleware
 import app.models
 from app.config import settings
 from app.database import Base, engine
-from app.routes import api_auth, auth, dashboard, documents, emails
+from app.routes import api_auth, auth, dashboard, documents, emails, weather
 from app.schemas import HealthResponse
 
 
@@ -46,6 +46,7 @@ app.include_router(auth.router)
 app.include_router(dashboard.router)
 app.include_router(documents.router)
 app.include_router(emails.router)
+app.include_router(weather.router)
 
 
 @app.get("/api/health", response_model=HealthResponse, tags=["health"])

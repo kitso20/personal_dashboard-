@@ -85,6 +85,14 @@ class WeatherLocationCreate(BaseModel):
     is_pinned: bool = False
 
 
+class WeatherLocationUpdate(BaseModel):
+    name: str | None = Field(default=None, min_length=1, max_length=120)
+    country: str | None = Field(default=None, max_length=80)
+    latitude: float | None = Field(default=None, ge=-90, le=90)
+    longitude: float | None = Field(default=None, ge=-180, le=180)
+    is_pinned: bool | None = None
+
+
 class WeatherLocationResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
@@ -95,6 +103,10 @@ class WeatherLocationResponse(BaseModel):
     longitude: float | None = None
     is_pinned: bool
     created_at: datetime
+
+
+class WeatherStatusResponse(BaseModel):
+    configured: bool
 
 
 class WeatherForecastDay(BaseModel):
