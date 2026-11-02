@@ -143,7 +143,113 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
     timeAgo: item.timeAgo
   }));
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key !== 'Escape') return;
+      setSelectedArticle(null);
+      setSearchOpen(false);
+      setUserDropdownOpen(false);
+      setWeatherMenuOpen(false);
+      setSourcesMenuOpen(false);
+      setHeadlinesMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
   const unreadAlerts = state.notifications?.filter((n) => !n.read).length || 0;
+
+  const searchTerm = searchQuery.trim().toLowerCase();
+  const searchResults: { id: string; label: string; meta: string; onSelect: () => void }[] = [];
+
+  if (searchTerm) {
+    curatedSources.forEach((item) => {
+      if (`${item.title} ${item.source} ${item.category}`.toLowerCase().includes(searchTerm)) {
+        searchResults.push({
+          id: item.id,
+          label: item.title,
+          meta: item.source,
+          onSelect: () => {
+            setSelectedArticle(item);
+            setSearchOpen(false);
+          }
+        });
+      }
+    });
+
+    (state.transitStations || []).forEach((station) => {
+      const lineNames = [...(station.metroLines || []), ...(station.busLines || [])]
+        .map((line) => `${line.lineCode} ${line.lineName}`)
+        .join(' ');
+      if (`${station.name} ${station.location} ${lineNames}`.toLowerCase().includes(searchTerm)) {
+        searchResults.push({
+          id: station.id,
+          label: station.name,
+          meta: 'Transit',
+          onSelect: () => {
+            dispatchAction('SELECT_TRANSIT_STATION', { stationId: station.id });
+            setSearchOpen(false);
+          }
+        });
+      }
+    });
+
+    (state.tasks || []).forEach((task) => {
+      if (task.title?.toLowerCase().includes(searchTerm)) {
+        searchResults.push({
+          id: task.id,
+          label: task.title,
+          meta: 'Task',
+          onSelect: () => {
+            onNavigateTab?.('tasks');
+            setSearchOpen(false);
+          }
+        });
+      }
+    });
+
+    (state.habits || []).forEach((habit) => {
+      if (habit.name?.toLowerCase().includes(searchTerm)) {
+        searchResults.push({
+          id: habit.id,
+          label: habit.name,
+          meta: 'Habit',
+          onSelect: () => {
+            onNavigateTab?.('habits');
+            setSearchOpen(false);
+          }
+        });
+      }
+    });
+
+    (state.documents || []).forEach((document) => {
+      if (document.title?.toLowerCase().includes(searchTerm)) {
+        searchResults.push({
+          id: document.id,
+          label: document.title,
+          meta: 'PDF',
+          onSelect: () => {
+            onNavigateTab?.('library');
+            setSearchOpen(false);
+          }
+        });
+      }
+    });
+
+    (state.cities || []).forEach((city) => {
+      if (city.name?.toLowerCase().includes(searchTerm)) {
+        searchResults.push({
+          id: city.id,
+          label: `${city.name} weather`,
+          meta: `${formatTemp(city.temp)}°${tempUnit}`,
+          onSelect: () => {
+            onNavigateTab?.('widgets');
+            setSearchOpen(false);
+          }
+        });
+      }
+    });
+  }
 
   const handleSaveProfileName = async () => {
     if (profileNameInput.trim()) {
@@ -230,6 +336,7 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
             <button
               onClick={() => setUserDropdownOpen(!userDropdownOpen)}
               className="flex items-center gap-2.5 py-1 px-2 rounded-full hover:bg-white/80 dark:hover:bg-white/[0.06] transition"
+              aria-label="Open user menu"
             >
               <img
                 src={state.user.avatar || 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=120&q=80'}
@@ -327,6 +434,7 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
             onClick={onOpenNotifications}
             className="relative p-2 rounded-full hover:bg-white/80 dark:hover:bg-white/[0.06] text-slate-600 dark:text-neutral-300 transition"
             title="Notifications"
+            aria-label="Open notifications"
           >
             <Bell className="w-4 h-4" />
             {unreadAlerts > 0 && (
@@ -339,6 +447,7 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
             onClick={() => setSearchOpen(true)}
             className="p-2 rounded-full hover:bg-white/80 dark:hover:bg-white/[0.06] text-slate-600 dark:text-neutral-300 transition"
             title="Search Dashboard"
+            aria-label="Search dashboard"
           >
             <Search className="w-4 h-4" />
           </button>
@@ -643,11 +752,17 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
 
       {/* Article Detail Modal */}
       {selectedArticle && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4">
+        <div
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-center justify-center p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Article preview"
+        >
           <div className="bg-white dark:bg-[#181b22] border border-slate-200 dark:border-white/[0.1] rounded-2xl w-full max-w-lg p-6 shadow-2xl relative">
             <button
               onClick={() => setSelectedArticle(null)}
               className="absolute top-4 right-4 p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white"
+              aria-label="Close article preview"
             >
               <X className="w-5 h-5" />
             </button>
@@ -684,7 +799,12 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
 
       {/* Global Quick Search Modal */}
       {searchOpen && (
-        <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-start justify-center pt-20 p-4">
+        <div
+          className="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs flex items-start justify-center pt-20 p-4"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Search dashboard"
+        >
           <div className="bg-white dark:bg-[#181b22] border border-slate-200 dark:border-white/[0.1] rounded-2xl w-full max-w-xl p-5 shadow-2xl">
             <div className="flex items-center gap-3 border-b border-slate-100 dark:border-white/[0.08] pb-3">
               <Search className="w-4 h-4 text-slate-400" />
@@ -699,43 +819,70 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
               <button
                 onClick={() => setSearchOpen(false)}
                 className="p-1 text-slate-400 hover:text-slate-600"
+                aria-label="Close search"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="py-3 space-y-1 text-xs">
-              <div className="text-[10px] uppercase font-bold text-slate-400 px-2 py-1">Quick Links</div>
-              <button
-                onClick={() => {
-                  onNavigateTab && onNavigateTab('habits');
-                  setSearchOpen(false);
-                }}
-                className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between"
-              >
-                <span>Habit Tracker (4/6 done)</span>
-                <span className="text-slate-400">Activity</span>
-              </button>
-              <button
-                onClick={() => {
-                  onNavigateTab && onNavigateTab('library');
-                  setSearchOpen(false);
-                }}
-                className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between"
-              >
-                <span>PDF Document Hub</span>
-                <span className="text-slate-400">Library</span>
-              </button>
-              <button
-                onClick={() => {
-                  onNavigateTab && onNavigateTab('settings');
-                  setSearchOpen(false);
-                }}
-                className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between"
-              >
-                <span>Settings & Preferences</span>
-                <span className="text-slate-400">Config</span>
-              </button>
+            <div className="py-3 space-y-1 text-xs max-h-80 overflow-y-auto">
+              {searchTerm ? (
+                searchResults.length > 0 ? (
+                  searchResults.slice(0, 10).map((result) => (
+                    <button
+                      key={`${result.meta}-${result.id}`}
+                      onClick={result.onSelect}
+                      className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between gap-3"
+                    >
+                      <span className="truncate">{result.label}</span>
+                      <span className="text-slate-400 shrink-0">{result.meta}</span>
+                    </button>
+                  ))
+                ) : (
+                  <div className="px-3 py-2 text-slate-400">
+                    No matches for &ldquo;{searchQuery}&rdquo;
+                  </div>
+                )
+              ) : (
+                <>
+                  <div className="text-[10px] uppercase font-bold text-slate-400 px-2 py-1">
+                    Quick Links
+                  </div>
+                  <button
+                    onClick={() => {
+                      onNavigateTab && onNavigateTab('habits');
+                      setSearchOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between"
+                  >
+                    <span>
+                      Habit Tracker ({state.habits?.filter((h) => h.completed).length || 0}/
+                      {state.habits?.length || 0} done)
+                    </span>
+                    <span className="text-slate-400">Activity</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      onNavigateTab && onNavigateTab('library');
+                      setSearchOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between"
+                  >
+                    <span>PDF Document Hub</span>
+                    <span className="text-slate-400">Library</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      onNavigateTab && onNavigateTab('settings');
+                      setSearchOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between"
+                  >
+                    <span>Settings & Preferences</span>
+                    <span className="text-slate-400">Config</span>
+                  </button>
+                </>
+              )}
             </div>
           </div>
         </div>
