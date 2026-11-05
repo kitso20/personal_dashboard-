@@ -19,7 +19,7 @@ const PORT = 3000;
 const OPENWEATHER_API_KEY = process.env.OPENWEATHER_API_KEY;
 const OPENWEATHER_BASE_URL = process.env.OPENWEATHER_BASE_URL || 'https://api.openweathermap.org/data/2.5';
 const app = express();
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
 
 const DATA_DIR = path.resolve(process.cwd(), 'data');
 const STATE_FILE = path.join(DATA_DIR, 'dashboard_state.json');
@@ -1073,14 +1073,25 @@ app.post('/api/action', async (req: Request, res: Response) => {
 
       // Rest & Relaxation Actions
       case 'LOG_REST_SESSION': {
+        const sleepHours = payload.sleepHours ?? dashboardState.rest.sleepHours;
+        const relaxationMinutes =
+          payload.relaxationMinutes ?? dashboardState.rest.relaxationMinutes;
         dashboardState.rest = {
           ...dashboardState.rest,
-          sleepHours: payload.sleepHours ?? dashboardState.rest.sleepHours,
+          sleepHours,
           sleepQuality: payload.sleepQuality ?? dashboardState.rest.sleepQuality,
-          relaxationMinutes: payload.relaxationMinutes ?? dashboardState.rest.relaxationMinutes,
+          relaxationMinutes,
           lastRestActivity: payload.lastRestActivity || dashboardState.rest.lastRestActivity,
-          recoveryScore: Math.min(100, Math.round(((payload.sleepHours ?? 7.5) / 7.5) * 60 + ((payload.relaxationMinutes ?? 45) / 45) * 40)),
-          recoveryStatus: (payload.sleepHours ?? 7.5) >= 7.0 && (payload.relaxationMinutes ?? 45) >= 30 ? "Optimal" : "Balanced"
+          recoveryScore: Math.min(
+            100,
+            Math.round((sleepHours / 7.5) * 60 + (relaxationMinutes / 45) * 40)
+          ),
+          recoveryStatus:
+            sleepHours >= 7.0 && relaxationMinutes >= 30
+              ? "Optimal"
+              : sleepHours >= 6.0 && relaxationMinutes >= 20
+              ? "Balanced"
+              : "Recharge Needed"
         };
         notifyTitle = 'Rest & Recovery Logged';
         notifyMessage = `${dashboardState.rest.sleepHours}h sleep & ${dashboardState.rest.relaxationMinutes}m downtime. Productivity updated.`;
@@ -1254,7 +1265,7 @@ app.post('/api/action', async (req: Request, res: Response) => {
             sender: "OmniSync Calendar Subsystem <calendar@omnisync.internal>",
             subject: `Calendar Reminder: ${newEvent.title} (${newEvent.date} at ${newEvent.startTime})`,
             snippet: `Reminder for upcoming event: ${newEvent.title} at ${newEvent.location}...`,
-            body: `Hello Kitso,\n\nCalendar reminder for:\nTitle: ${newEvent.title}\nDate: ${newEvent.date}\nTime: ${newEvent.startTime} - ${newEvent.endTime}\nLocation: ${newEvent.location}`,
+            body: `Hello ${dashboardState.user.name},\n\nCalendar reminder for:\nTitle: ${newEvent.title}\nDate: ${newEvent.date}\nTime: ${newEvent.startTime} - ${newEvent.endTime}\nLocation: ${newEvent.location}`,
             timestamp: "Just now",
             date: new Date().toISOString(),
             read: false,
@@ -1306,7 +1317,9 @@ app.post('/api/action', async (req: Request, res: Response) => {
 
       // Fun Facts
       case 'NEXT_FUN_FACT': {
-        dashboardState.currentFactIndex = (dashboardState.currentFactIndex + 1) % dashboardState.funFacts.length;
+        if (dashboardState.funFacts.length > 0) {
+          dashboardState.currentFactIndex = (dashboardState.currentFactIndex + 1) % dashboardState.funFacts.length;
+        }
         break;
       }
 
@@ -1333,12 +1346,22 @@ app.post('/api/action', async (req: Request, res: Response) => {
       // Email Actions
       case 'SEND_WEATHER_EMAIL_ALERT': {
         const city = dashboardState.cities.find((c: any) => c.id === payload.cityId) || dashboardState.cities[0];
+        if (!city) {
+          notifyTitle = 'Weather Alert Failed';
+          notifyMessage = 'No tracked city is available to send an advisory for.';
+          notifyType = 'system';
+          break;
+        }
+        const weatherUnit = dashboardState.preferences.tempUnit || 'C';
+        const weatherTemp = weatherUnit === 'F'
+          ? Math.round((city.temp * 9) / 5 + 32)
+          : Math.round(city.temp);
         const emailMsg = {
           id: 'em-weather-' + Date.now(),
           sender: "OmniSync Weather Bot <weather@omnisync.internal>",
-          subject: `Weather Advisory: ${city.name} (${city.temp}°C, ${city.condition})`,
+          subject: `Weather Advisory: ${city.name} (${weatherTemp}°${weatherUnit}, ${city.condition})`,
           snippet: `Current conditions and forecast for ${city.name}...`,
-          body: `Weather Report for ${city.name}, ${city.country}\n\nTemp: ${city.temp}°C\nCondition: ${city.condition}\nHumidity: ${city.humidity}%\nWind: ${city.windSpeed} km/h`,
+          body: `Weather Report for ${city.name}, ${city.country}\n\nTemp: ${weatherTemp}°${weatherUnit}\nCondition: ${city.condition}\nHumidity: ${city.humidity}%\nWind: ${city.windSpeed} km/h`,
           timestamp: "Just now",
           date: new Date().toISOString(),
           read: false,
@@ -1375,8 +1398,17 @@ app.post('/api/action', async (req: Request, res: Response) => {
       }
 
       case 'SEND_NEWS_EMAIL_DIGEST': {
-        const topic = payload.topic || 'Curated';
-        const articles = dashboardState.newsArticles.slice(0, 4);
+        const topic = payload.topic || dashboardState.selectedNewsTopic || 'Curated';
+        const matchingArticles = dashboardState.newsArticles.filter(
+          (article: any) =>
+            topic === 'All' ||
+            String(article.topic || '').toLowerCase().includes(topic.toLowerCase()) ||
+            topic.toLowerCase().includes(String(article.topic || '').toLowerCase())
+        );
+        const articles = (matchingArticles.length > 0
+          ? matchingArticles
+          : dashboardState.newsArticles
+        ).slice(0, 4);
         const emailMsg = {
           id: 'em-news-' + Date.now(),
           sender: "OmniSync Newsfeed <news@omnisync.internal>",

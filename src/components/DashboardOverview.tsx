@@ -207,6 +207,21 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
     relaxationTarget: 45
   };
 
+  const tempUnit = state.preferences?.tempUnit || 'C';
+  const formatTemp = (celsius: number) =>
+    tempUnit === 'F' ? Math.round((celsius * 9) / 5 + 32) : Math.round(celsius);
+
+  const formatEventTime = (time?: string) => {
+    if (!time) return '';
+    if (/am|pm/i.test(time)) return time;
+    const [hoursPart, minutesPart = '00'] = time.split(':');
+    const hours = Number(hoursPart);
+    if (Number.isNaN(hours)) return time;
+    const suffix = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    return `${displayHours}:${minutesPart.padStart(2, '0')} ${suffix}`;
+  };
+
   // Format focus time
   const focusMinutes = Math.floor(focusSecondsLeft / 60).toString().padStart(2, '0');
   const focusSecs = (focusSecondsLeft % 60).toString().padStart(2, '0');
@@ -363,9 +378,9 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                   >
                     {/* Time Column */}
                     <div className="w-20 shrink-0 text-left font-mono text-xs text-neutral-400 leading-tight">
-                      <div>{event.startTime ? (event.startTime.includes('AM') || event.startTime.includes('PM') ? event.startTime : `${event.startTime} AM`) : '09:30 AM'}</div>
+                      <div>{formatEventTime(event.startTime) || '9:30 AM'}</div>
                       <div className="text-[11px] text-neutral-400">
-                        {event.endTime ? (event.endTime.includes('AM') || event.endTime.includes('PM') ? event.endTime : `${event.endTime} AM`) : '10:00 AM'}
+                        {formatEventTime(event.endTime) || '10:00 AM'}
                       </div>
                     </div>
 
@@ -562,8 +577,8 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
             </div>
           </div>
           <div className="flex items-center justify-between text-[10px] font-mono text-neutral-400">
-            <span>7.9h Deep Work</span>
-            <span>7.8h Sleep</span>
+            <span>{breakdown.deepWorkHours}h Deep Work</span>
+            <span>{breakdown.sleepHours}h Sleep</span>
           </div>
         </div>
 
@@ -709,10 +724,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                   Deep Focus
                 </div>
                 <div className="text-2xl font-semibold text-white tracking-tight mt-1">
-                  7.9h
+                  {breakdown.deepWorkHours}h
                 </div>
                 <div className="text-[11px] text-emerald-400 font-mono mt-1">
-                  Target: 6.0h (131%)
+                  Target: {breakdown.deepWorkTarget}h ({Math.round((breakdown.deepWorkHours / (breakdown.deepWorkTarget || 1)) * 100)}%)
                 </div>
               </div>
 
@@ -744,10 +759,10 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                   Rest & Sleep
                 </div>
                 <div className="text-2xl font-semibold text-white tracking-tight mt-1">
-                  7.8h
+                  {breakdown.sleepHours}h
                 </div>
                 <div className="text-[11px] text-emerald-400 font-mono mt-1">
-                  Optimal recovery (92%)
+                  {state.rest?.recoveryStatus || 'Optimal'} recovery ({breakdown.restRecoveryRate}%)
                 </div>
               </div>
 
@@ -799,7 +814,7 @@ export const DashboardOverview: React.FC<DashboardOverviewProps> = ({
                 <div className="text-[11px] text-neutral-400">{city.condition}</div>
               </div>
               <div className="text-lg font-semibold text-white font-mono">
-                {city.temp}°C
+                {formatTemp(city.temp)}°{tempUnit}
               </div>
             </div>
           ))}

@@ -5,7 +5,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRealtimeSync } from './hooks/useRealtimeSync';
-import { usePWAInstall } from './hooks/usePWAInstall';
 import { Sidebar } from './components/Sidebar';
 import { DashboardOverview } from './components/DashboardOverview';
 import { HabitTrackerView } from './components/HabitTrackerView';
@@ -20,6 +19,9 @@ import { GlobalQuickAction } from './components/GlobalQuickAction';
 import { ToDoWidget } from './components/widgets/ToDoWidget';
 import { HabitsWidget } from './components/widgets/HabitsWidget';
 import { NewsWidget } from './components/widgets/NewsWidget';
+import { CalendarWidget } from './components/widgets/CalendarWidget';
+import { FunFactWidget } from './components/widgets/FunFactWidget';
+import { WidgetControlBar } from './components/widgets/WidgetControlBar';
 import { WeatherWidget } from './components/widgets/WeatherWidget';
 import { RelaxationWidget } from './components/widgets/RelaxationWidget';
 import { PersonalDashboardView } from './components/PersonalDashboardView';
@@ -92,6 +94,17 @@ export default function App() {
   }
 
   const unreadAlerts = state.notifications?.filter((n) => !n.read).length || 0;
+  const defaultWidgets = {
+    habits: true,
+    rest: true,
+    weather: true,
+    calendar: true,
+    todos: true,
+    news: true,
+    funfacts: true,
+    analytics: true
+  };
+  const activeWidgets = { ...defaultWidgets, ...(state.activeWidgets || {}) };
 
   return (
     <div className="min-h-screen bg-[#090b0e] text-neutral-200 flex overflow-hidden font-sans selection:bg-rose-500/30 selection:text-white">
@@ -196,34 +209,144 @@ export default function App() {
                     </button>
                   </div>
 
+                  <WidgetControlBar
+                    activeWidgets={activeWidgets}
+                    onToggleWidget={(widget) => dispatchAction('TOGGLE_WIDGET', { widget })}
+                  />
+
                   <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
                     <div className="lg:col-span-8 space-y-6">
                       <PublicTransitWidget state={state} dispatchAction={dispatchAction} variant="full-schedule" />
-                      <WeatherWidget
-                        cities={state.cities || []}
-                        tempUnit={state.preferences?.tempUnit || 'C'}
-                        onAddCity={(city) => dispatchAction('ADD_CITY', city)}
-                        onRemoveCity={(id) => dispatchAction('REMOVE_CITY', { id })}
-                        onTogglePin={(id) => dispatchAction('TOGGLE_PIN_CITY', { id })}
-                        onToggleUnit={(unit) => dispatchAction('UPDATE_PREFERENCES', { tempUnit: unit })}
-                        onSendEmailAlert={(cityId) => dispatchAction('SEND_WEATHER_EMAIL_ALERT', { cityId })}
-                      />
+                      {activeWidgets.weather && (
+                        <WeatherWidget
+                          cities={state.cities || []}
+                          tempUnit={state.preferences?.tempUnit || 'C'}
+                          onAddCity={(city) => dispatchAction('ADD_CITY', city)}
+                          onRemoveCity={(id) => dispatchAction('REMOVE_CITY', { id })}
+                          onTogglePin={(id) => dispatchAction('TOGGLE_PIN_CITY', { id })}
+                          onToggleUnit={(unit) => dispatchAction('UPDATE_PREFERENCES', { tempUnit: unit })}
+                          onSendEmailAlert={(cityId) => dispatchAction('SEND_WEATHER_EMAIL_ALERT', { cityId })}
+                        />
+                      )}
+                      {activeWidgets.calendar && (
+                        <CalendarWidget
+                          events={state.calendarEvents || []}
+                          userEmail={state.user?.email || ''}
+                          onAddEvent={(event) => dispatchAction('ADD_CALENDAR_EVENT', event)}
+                          onDeleteEvent={(id) => dispatchAction('DELETE_CALENDAR_EVENT', { id })}
+                          onToggleEvent={(id) => dispatchAction('TOGGLE_CALENDAR_EVENT', { id })}
+                          onDispatchEmailDigest={() => dispatchAction('SEND_CALENDAR_EMAIL_DIGEST', {})}
+                        />
+                      )}
+                      {activeWidgets.news && (
+                        <NewsWidget
+                          articles={state.newsArticles || []}
+                          selectedTopic={state.selectedNewsTopic}
+                          customKeywords={state.customNewsKeywords || []}
+                          userEmail={state.user?.email || ''}
+                          onSelectTopic={(topic) => dispatchAction('SET_NEWS_TOPIC', { topic })}
+                          onAddKeyword={(keyword) => dispatchAction('ADD_NEWS_KEYWORD', { keyword })}
+                          onSendNewsDigest={(topic) => dispatchAction('SEND_NEWS_EMAIL_DIGEST', { topic })}
+                        />
+                      )}
                     </div>
                     <div className="lg:col-span-4 space-y-6">
                       <PublicTransitWidget state={state} dispatchAction={dispatchAction} variant="quick-glance" />
-                      <HabitsWidget
-                        habits={state.habits || []}
-                        onToggleHabit={(id) => dispatchAction('TOGGLE_HABIT', { id })}
-                        onAddHabit={(habit) => dispatchAction('ADD_HABIT', habit)}
-                        onDeleteHabit={(id) => dispatchAction('DELETE_HABIT', { id })}
-                      />
-                      <RelaxationWidget
-                        rest={state.rest}
-                        onLogRest={(data) => dispatchAction('UPDATE_REST_METRICS', data)}
-                        onSendRestEmail={() => dispatchAction('SEND_REST_REMINDER_EMAIL', {})}
-                      />
+                      {activeWidgets.habits && (
+                        <HabitsWidget
+                          habits={state.habits || []}
+                          onToggleHabit={(id) => dispatchAction('TOGGLE_HABIT', { id })}
+                          onAddHabit={(habit) => dispatchAction('ADD_HABIT', habit)}
+                          onDeleteHabit={(id) => dispatchAction('DELETE_HABIT', { id })}
+                        />
+                      )}
+                      {activeWidgets.rest && (
+                        <RelaxationWidget
+                          rest={state.rest}
+                          onLogRest={(data) => dispatchAction('LOG_REST_SESSION', data)}
+                          onSendRestEmail={() => dispatchAction('SEND_REST_EMAIL_ADVISORY', {})}
+                        />
+                      )}
+                      {activeWidgets.todos && (
+                        <ToDoWidget
+                          tasks={state.tasks || []}
+                          notes={state.notes || []}
+                          onAddTodo={(task) => dispatchAction('ADD_TODO', task)}
+                          onToggleTodo={(id) => dispatchAction('TOGGLE_TODO', { id })}
+                          onDeleteTodo={(id) => dispatchAction('DELETE_TODO', { id })}
+                          onDeleteNote={(id) => dispatchAction('DELETE_NOTE', { id })}
+                        />
+                      )}
+                      {activeWidgets.funfacts && (
+                        <FunFactWidget
+                          facts={state.funFacts || []}
+                          currentIndex={state.currentFactIndex}
+                          onNextFact={() => dispatchAction('NEXT_FUN_FACT', {})}
+                          onLikeFact={(index) => dispatchAction('LIKE_FUN_FACT', { index })}
+                        />
+                      )}
+                      {activeWidgets.analytics && (
+                        <div className="bg-[#101318] border border-white/[0.07] rounded-2xl p-5">
+                          <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
+                            <span className="text-xs font-semibold text-white">Telemetry Snapshot</span>
+                            <span className="text-[10px] font-mono text-indigo-400">
+                              Python Analytics
+                            </span>
+                          </div>
+                          <div className="grid grid-cols-3 gap-2 mt-3 text-center">
+                            <div>
+                              <div className="text-lg font-semibold text-white">
+                                {state.productivityBreakdown?.score ?? 0}%
+                              </div>
+                              <div className="text-[10px] text-neutral-400 font-mono">Score</div>
+                            </div>
+                            <div>
+                              <div className="text-lg font-semibold text-white">
+                                {state.productivityBreakdown?.deepWorkHours ?? 0}h
+                              </div>
+                              <div className="text-[10px] text-neutral-400 font-mono">Deep Work</div>
+                            </div>
+                            <div>
+                              <div className="text-lg font-semibold text-white">
+                                {state.productivityBreakdown?.sleepHours ?? 0}h
+                              </div>
+                              <div className="text-[10px] text-neutral-400 font-mono">Sleep</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
+                </div>
+              )}
+
+              {/* NEWS HUB VIEW */}
+              {activeTab === 'news' && (
+                <div className="max-w-5xl mx-auto space-y-6">
+                  <div className="flex items-center justify-between border-b border-white/[0.06] pb-4">
+                    <div>
+                      <h1 className="text-2xl font-bold text-white">News Hub</h1>
+                      <p className="text-xs text-neutral-400 mt-1">
+                        Curated topics, custom keywords, and email digests
+                      </p>
+                    </div>
+                    <button
+                      onClick={() => setActiveTab('overview')}
+                      className="px-3.5 py-1.5 rounded-xl bg-sky-500 text-white text-xs font-semibold hover:bg-sky-600 transition shadow-xs"
+                    >
+                      ← Personal Dashboard
+                    </button>
+                  </div>
+
+                  <NewsWidget
+                    articles={state.newsArticles || []}
+                    selectedTopic={state.selectedNewsTopic}
+                    customKeywords={state.customNewsKeywords || []}
+                    userEmail={state.user?.email || ''}
+                    onSelectTopic={(topic) => dispatchAction('SET_NEWS_TOPIC', { topic })}
+                    onAddKeyword={(keyword) => dispatchAction('ADD_NEWS_KEYWORD', { keyword })}
+                    onSendNewsDigest={(topic) => dispatchAction('SEND_NEWS_EMAIL_DIGEST', { topic })}
+                  />
                 </div>
               )}
 

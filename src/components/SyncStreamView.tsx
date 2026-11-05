@@ -19,7 +19,7 @@ export const SyncStreamView: React.FC<SyncStreamViewProps> = ({
   dispatchAction
 }) => {
   const handleSimulateRemotePeer = async () => {
-    await dispatchAction('ADD_TASK', {
+    await dispatchAction('ADD_TODO', {
       title: `Remote node check-in (${new Date().toLocaleTimeString()})`,
       priority: 'high',
       category: 'Realtime Sync',

@@ -24,7 +24,7 @@ export const DeviceSyncModal: React.FC<DeviceSyncModalProps> = ({
 
   const handleSimulateRemoteAction = async () => {
     // Simulates an action originating from a simulated secondary device (e.g. mobile node)
-    await dispatchAction('ADD_TASK', {
+    await dispatchAction('ADD_TODO', {
       title: `Synchronized from Mobile Node (${new Date().toLocaleTimeString()})`,
       priority: 'high',
       category: 'Mobile Sync',

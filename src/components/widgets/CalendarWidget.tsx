@@ -7,8 +7,6 @@ import {
   Mail,
   CheckCircle2,
   Trash2,
-  ChevronLeft,
-  ChevronRight,
   Send
 } from 'lucide-react';
 import { CalendarEvent } from '../../types';
@@ -22,6 +20,13 @@ interface CalendarWidgetProps {
   onDispatchEmailDigest: () => Promise<void>;
 }
 
+const formatDateInput = (date: Date) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
   events,
   userEmail,
@@ -30,7 +35,13 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
   onToggleEvent,
   onDispatchEmailDigest
 }) => {
-  const [selectedDate, setSelectedDate] = useState<string>('2026-10-28');
+  const [selectedDate, setSelectedDate] = useState<string>(() => {
+    const today = formatDateInput(new Date());
+    const eventDates = Array.from(new Set(events.map((event) => event.date).filter(Boolean))).sort();
+    if (eventDates.includes(today)) return today;
+    const nextEventDate = eventDates.find((date) => date >= today);
+    return nextEventDate || eventDates[eventDates.length - 1] || today;
+  });
   const [isAddingEvent, setIsAddingEvent] = useState(false);
   const [isSendingDigest, setIsSendingDigest] = useState(false);
 
@@ -81,12 +92,27 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
     }
   };
 
-  // Filter events for selected day or upcoming
+  // Filter events for the selected day
   const dayEvents = events.filter((e) => e.date === selectedDate);
-  const upcomingEvents = events.filter((e) => e.date !== selectedDate);
 
-  // Generate mini calendar days for October 2026 (starts on Thursday, 31 days)
-  const daysInMonth = Array.from({ length: 31 }, (_, i) => i + 1);
+  // Show the next four days plus every day that has a scheduled event so older
+  // agenda entries remain reachable from the quick date selector.
+  const eventDates = events.map((event) => event.date).filter(Boolean);
+  const dateOptions = Array.from(
+    new Set([
+      ...Array.from({ length: 4 }, (_, index) => {
+        const date = new Date();
+        date.setDate(date.getDate() + index);
+        return formatDateInput(date);
+      }),
+      ...eventDates
+    ])
+  ).sort();
+
+  const selectedMonthLabel = new Date(`${selectedDate}T12:00:00`).toLocaleDateString('en-US', {
+    month: 'long',
+    year: 'numeric'
+  });
 
   return (
     <div className="h-full bg-slate-900/70 border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between shadow-xs hover:border-slate-700/80 transition-colors">
@@ -214,12 +240,15 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
 
         {/* Date Selector Row */}
         <div className="flex items-center justify-between py-2 text-xs">
-          <span className="font-semibold text-white">October 2026</span>
-          <div className="flex items-center gap-1">
-            {['2026-10-27', '2026-10-28', '2026-10-29', '2026-10-30'].map((d) => (
+          <span className="font-semibold text-white">{selectedMonthLabel}</span>
+          <div className="flex items-center gap-1 overflow-x-auto no-scrollbar">
+            {dateOptions.map((d) => (
               <button
                 key={d}
-                onClick={() => setSelectedDate(d)}
+                onClick={() => {
+                  setSelectedDate(d);
+                  setNewEvent((event) => ({ ...event, date: d }));
+                }}
                 className={`px-2 py-0.5 rounded text-[11px] font-mono transition-colors ${
                   selectedDate === d
                     ? 'bg-indigo-600 text-white font-bold'
@@ -320,7 +349,7 @@ export const CalendarWidget: React.FC<CalendarWidgetProps> = ({
         </button>
 
         <span className="text-[11px] text-slate-500">
-          {events.filter((e) => e.date === selectedDate).length} events today
+          {dayEvents.length} event{dayEvents.length === 1 ? '' : 's'} on {selectedDate}
         </span>
       </div>
     </div>

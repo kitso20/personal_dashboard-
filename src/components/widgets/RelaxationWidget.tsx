@@ -29,6 +29,17 @@ export const RelaxationWidget: React.FC<RelaxationWidgetProps> = ({
   const [sessionSeconds, setSessionSeconds] = useState(60);
 
   useEffect(() => {
+    if (!isEditing) {
+      setForm({
+        sleepHours: rest.sleepHours,
+        sleepQuality: rest.sleepQuality,
+        relaxationMinutes: rest.relaxationMinutes,
+        lastRestActivity: rest.lastRestActivity
+      });
+    }
+  }, [rest.sleepHours, rest.sleepQuality, rest.relaxationMinutes, rest.lastRestActivity, isEditing]);
+
+  useEffect(() => {
     let interval: any = null;
     if (isBreathingActive) {
       interval = setInterval(() => {

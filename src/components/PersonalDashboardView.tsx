@@ -422,7 +422,7 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
                     className="w-full text-left px-2 py-1.5 rounded hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between"
                   >
                     <span>Kitso Motlashuping (Account)</span>
-                    {state.user.name.includes('Kitso') && <Check className="w-3.5 h-3.5 text-sky-500" />}
+                    {(state.user.name || '').includes('Kitso') && <Check className="w-3.5 h-3.5 text-sky-500" />}
                   </button>
                 </div>
               </div>
@@ -657,7 +657,7 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
                     <div className="absolute right-0 top-7 z-30 w-44 bg-white dark:bg-[#181b22] border border-slate-200 dark:border-white/[0.1] rounded-xl shadow-xl py-1 text-xs">
                       <button
                         onClick={() => {
-                          dispatchAction('SEND_NEWS_EMAIL_DIGEST');
+                          dispatchAction('SEND_NEWS_EMAIL_DIGEST', { topic: state.selectedNewsTopic });
                           setHeadlinesMenuOpen(false);
                         }}
                         className="w-full text-left px-3 py-2 text-slate-700 dark:text-neutral-200 hover:bg-slate-100 dark:hover:bg-white/[0.06]"
@@ -705,7 +705,7 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
                 Updated in real time
               </span>
               <button
-                onClick={() => dispatchAction('SEND_NEWS_EMAIL_DIGEST')}
+                onClick={() => dispatchAction('SEND_NEWS_EMAIL_DIGEST', { topic: state.selectedNewsTopic })}
                 className="text-sky-600 dark:text-sky-400 hover:underline flex items-center gap-1 font-medium"
               >
                 Send Digest Email
@@ -870,6 +870,16 @@ export const PersonalDashboardView: React.FC<PersonalDashboardViewProps> = ({
                   >
                     <span>PDF Document Hub</span>
                     <span className="text-slate-400">Library</span>
+                  </button>
+                  <button
+                    onClick={() => {
+                      onNavigateTab && onNavigateTab('news');
+                      setSearchOpen(false);
+                    }}
+                    className="w-full text-left px-3 py-2 rounded-lg hover:bg-slate-100 dark:hover:bg-white/[0.06] flex items-center justify-between"
+                  >
+                    <span>News Hub & Digests</span>
+                    <span className="text-slate-400">News</span>
                   </button>
                   <button
                     onClick={() => {

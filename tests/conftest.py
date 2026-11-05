@@ -1,9 +1,14 @@
 import os
+import sys
 import tempfile
 from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
+
+PROJECT_ROOT = Path(__file__).resolve().parents[1]
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.insert(0, str(PROJECT_ROOT))
 
 TEST_DIR = Path(tempfile.mkdtemp(prefix="dashboard-tests-"))
 

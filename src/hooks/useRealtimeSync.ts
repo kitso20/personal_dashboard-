@@ -21,6 +21,11 @@ export function useRealtimeSync() {
 
   const socketRef = useRef<WebSocket | null>(null);
   const reconnectTimeoutRef = useRef<number | null>(null);
+  const stateRef = useRef<DashboardState | null>(null);
+
+  useEffect(() => {
+    stateRef.current = state;
+  }, [state]);
 
   const addLog = useCallback((type: string, detail: string, direction: 'inbound' | 'outbound' = 'inbound') => {
     const newLog: SyncLogEvent = {
@@ -49,8 +54,10 @@ export function useRealtimeSync() {
 
   // Trigger local push notification
   const firePushNotification = useCallback((title: string, message: string, type: string = 'info') => {
-    // 1. Play gentle audio chime
-    playNotificationSound();
+    // 1. Play gentle audio chime when enabled
+    if (stateRef.current?.preferences?.pushSound !== false) {
+      playNotificationSound();
+    }
 
     // 2. Set active in-app toast
     setActiveToast({ title, message, type });
@@ -183,8 +190,9 @@ export function useRealtimeSync() {
   }, [addLog, firePushNotification]);
 
   // Dispatch actions to server (with optimistic update)
-  const dispatchAction = useCallback(async (action: string, payload: any) => {
-    addLog(action, JSON.stringify(payload).substring(0, 80), 'outbound');
+  const dispatchAction = useCallback(async (action: string, payload: any = {}) => {
+    const payloadPreview = payload === undefined ? '' : JSON.stringify(payload);
+    addLog(action, (payloadPreview || '').substring(0, 80), 'outbound');
 
     try {
       const res = await fetch('/api/action', {
@@ -192,12 +200,18 @@ export function useRealtimeSync() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           action,
-          payload,
+          payload: payload ?? {},
           sourceDeviceId: myClientId
         })
       });
 
       const data = await res.json();
+      if (!res.ok) {
+        const message = data?.error || `Action ${action} failed`;
+        addLog('ACTION_ERROR', message, 'outbound');
+        firePushNotification('Action failed', message, 'system');
+        return data;
+      }
       if (data.state) {
         setState(data.state);
       }
@@ -206,7 +220,7 @@ export function useRealtimeSync() {
       addLog('ACTION_ERROR', `Failed to execute ${action}: ${err.message}`, 'outbound');
       throw err;
     }
-  }, [addLog, myClientId]);
+  }, [addLog, firePushNotification, myClientId]);
 
   return {
     state,

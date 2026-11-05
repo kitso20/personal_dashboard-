@@ -82,6 +82,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
 
   const workspaceItems = [
     { id: 'library', label: 'Library & PDFs', icon: BookOpen, count: (state.documents?.length || 4) },
+    { id: 'news', label: 'News Hub', icon: Newspaper },
     { id: 'tasks', label: 'Tasks', icon: CheckSquare, count: remainingTasks },
     { id: 'notes', label: 'Notes', icon: FileText, count: state.notes?.length },
     { id: 'workspace', label: 'Python Studio', icon: BarChart2 }

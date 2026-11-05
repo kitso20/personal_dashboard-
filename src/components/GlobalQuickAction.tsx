@@ -77,32 +77,41 @@ export const GlobalQuickAction: React.FC<GlobalQuickActionProps> = ({
     e.preventDefault();
     setIsSubmitting(true);
 
+    const ensureSuccess = (result: any) => {
+      if (!result || result.success === false || result.error) {
+        throw new Error(result?.error || 'Quick action failed');
+      }
+    };
+
     try {
       if (activeType === 'task') {
         if (!taskTitle.trim()) return;
-        await dispatchAction('ADD_TODO', {
+        const result = await dispatchAction('ADD_TODO', {
           title: taskTitle.trim(),
           category: taskCategory,
           priority: taskPriority,
           dueDate: taskDueDate
         });
+        ensureSuccess(result);
         setTaskTitle('');
         if (onSuccessToast) onSuccessToast('Task Created', `Added: "${taskTitle}"`);
       } else if (activeType === 'habit') {
         if (!habitName.trim()) return;
-        await dispatchAction('ADD_HABIT', {
+        const result = await dispatchAction('ADD_HABIT', {
           name: habitName.trim(),
           category: habitCategory
         });
+        ensureSuccess(result);
         setHabitName('');
         if (onSuccessToast) onSuccessToast('Habit Tracked', `New habit: "${habitName}"`);
       } else if (activeType === 'note') {
         if (!noteTitle.trim() && !noteContent.trim()) return;
-        await dispatchAction('ADD_NOTE', {
+        const result = await dispatchAction('ADD_NOTE', {
           title: noteTitle.trim() || 'Quick Note',
           content: noteContent.trim(),
           category: noteCategory
         });
+        ensureSuccess(result);
         setNoteTitle('');
         setNoteContent('');
         if (onSuccessToast) onSuccessToast('Note Logged', `Saved note: "${noteTitle || 'Quick Note'}"`);

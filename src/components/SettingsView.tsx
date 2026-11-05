@@ -24,6 +24,29 @@ interface SettingsViewProps {
   dispatchAction: (action: string, payload: any) => Promise<any>;
 }
 
+const PreferenceToggle: React.FC<{
+  label: string;
+  description: string;
+  checked: boolean;
+  onChange: (checked: boolean) => void;
+}> = ({ label, description, checked, onChange }) => (
+  <div className="flex items-center justify-between gap-4 p-4 rounded-xl bg-white/[0.02] border border-white/[0.05]">
+    <div>
+      <div className="text-xs font-semibold text-white">{label}</div>
+      <p className="text-[11px] text-neutral-400 mt-1 leading-relaxed">{description}</p>
+    </div>
+    <label className="relative inline-flex items-center cursor-pointer shrink-0">
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={(e) => onChange(e.target.checked)}
+        className="sr-only peer"
+      />
+      <div className="w-11 h-6 bg-white/[0.1] peer-focus:outline-hidden rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-rose-500"></div>
+    </label>
+  </div>
+);
+
 export const SettingsView: React.FC<SettingsViewProps> = ({
   state,
   dispatchAction
@@ -53,6 +76,9 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
   );
   const [emailNewsDigest, setEmailNewsDigest] = useState<boolean>(
     state.preferences?.emailNewsDigest ?? true
+  );
+  const [emailRestReminders, setEmailRestReminders] = useState<boolean>(
+    state.preferences?.emailRestReminders ?? true
   );
 
   // Routine times state
@@ -95,6 +121,7 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
         emailWeatherAlerts,
         emailCalendarReminders,
         emailNewsDigest,
+        emailRestReminders,
         routineTimes: {
           morningBriefing: morningBriefingTime,
           websitePulse: websitePulseTime,
@@ -379,7 +406,50 @@ export const SettingsView: React.FC<SettingsViewProps> = ({
           </div>
         </div>
 
-        {/* SECTION 4: Application & PWA Installation */}
+        {/* SECTION 4: Notifications & Email Delivery */}
+        <div className="bg-[#101318] border border-white/[0.07] rounded-2xl p-6 space-y-5">
+          <div className="flex items-center gap-2 pb-3 border-b border-white/[0.06]">
+            <Bell className="w-4 h-4 text-rose-400" />
+            <h2 className="text-sm font-semibold text-white tracking-tight uppercase font-mono">
+              Notifications & Email Delivery
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+            <PreferenceToggle
+              label="Notification Sound"
+              description="Play a soft chime for in-app alerts and push notifications."
+              checked={pushSound}
+              onChange={setPushSound}
+            />
+            <PreferenceToggle
+              label="Weather Alert Emails"
+              description="Email severe weather advisories for your pinned locations."
+              checked={emailWeatherAlerts}
+              onChange={setEmailWeatherAlerts}
+            />
+            <PreferenceToggle
+              label="Calendar Reminder Emails"
+              description="Send reminders for scheduled events and daily agenda digests."
+              checked={emailCalendarReminders}
+              onChange={setEmailCalendarReminders}
+            />
+            <PreferenceToggle
+              label="News Digest Emails"
+              description="Deliver curated news briefings based on your tracked topics."
+              checked={emailNewsDigest}
+              onChange={setEmailNewsDigest}
+            />
+            <PreferenceToggle
+              label="Rest & Relaxation Reminders"
+              description="Email recovery check-ins and wind-down reminders."
+              checked={emailRestReminders}
+              onChange={setEmailRestReminders}
+            />
+          </div>
+        </div>
+
+        {/* SECTION 5: Application & PWA Installation */}
         <div className="bg-[#101318] border border-white/[0.07] rounded-2xl p-6 space-y-5">
           <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
             <div className="flex items-center gap-2">
